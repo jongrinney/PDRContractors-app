@@ -1,0 +1,170 @@
+:root{
+	--shadow-on-gray: 0 0 30px rgba(0,0,0,.2);
+	--shadow-on-blue: 0 0 40px rgba(0,0,0,.35);
+}
+head,
+body{
+	margin:0;
+	padding:0;
+}
+body{
+	background: linear-gradient(#FFF, #D2D4D3);
+	background: linear-gradient(#17668D, #043E5E);
+	min-height:500px;
+}
+
+a,
+button,
+input[type="submit"],
+input[type="button"]{
+	text-transform: uppercase;
+}
+main{
+	width:100vw;
+	top:0;
+}
+
+main:not(.active),
+section:not(.active),
+.rollup .content:not(.active){
+	display:none;
+}
+
+
+#login{
+	background: var(--blue) radial-gradient(335px, #70ced8 , var(--blue)) no-repeat;
+    background-position: 0 -13vh;
+}
+#login .logo{
+	height: 45vh;
+    margin: 10vh 30px;
+	background: url(logo-compressor.png) no-repeat center center;
+    background-size: contain;
+}
+#login form{
+	display:block;
+	background-color: white;
+	padding: 20px;
+	margin: auto;
+	width: 80%;
+	max-width:300px;
+	box-shadow: var(--shadow-on-gray);
+}
+
+nav{
+	position:fixed;
+	top:30px;
+	left:15px;
+	right:0;
+	text-align:right;
+	border-top-left-radius:50px;
+	border-bottom-left-radius:50px;
+	background: linear-gradient(to right, #FFF, #D2D4D3);
+	height:60px;
+	line-height: 60px;
+	box-shadow: 0 15px 20px rgba(0,0,0,.2);
+	z-index:9999;
+}
+nav:before{
+	content: "";
+	background-image: url(logo.png);
+	position:absolute;
+	left: 10px;
+	top: 10px;
+	width: 40px;
+	height: 40px;
+	background-size:contain;
+}
+nav a{
+	padding:20px;
+	color: #5B5D5E;
+	font-weight: bold;
+}
+nav a.active{
+	color: var(--blue);
+}
+
+article.useGPS{
+	height: 33vh;
+	display:flex;
+	align-items:center;
+	justify-content: center;
+    top: 90px;
+    width: 100vw;
+    left: 0;
+	position:fixed;
+	min-height:155px;
+}
+article.useGPS button{
+	background: var(--green) url(gps_icon.png) 10px center no-repeat;
+	background-size:30px;
+	padding:20px;
+	padding-left:50px;
+	border-radius:20px;
+	color: white;
+	font-weight: bold;
+	border:0;
+	box-shadow: var(--shadow-on-blue);
+	
+}
+article.box{
+	background-color:white;
+	box-shadow: var(--shadow-on-blue);
+	padding:10px 0;
+	position: relative;
+	margin: auto;
+    margin-top: 250px;
+	margin-bottom:30px;
+    min-height: calc(55vh - 30px);
+	max-width: 1200px;
+}
+@media (min-height:500px){
+	article.box{
+		margin-top: 45vh;
+	}
+}
+article.box .rollup{
+	border-top: 1px solid #C4C0C1;
+	border-bottom: 1px solid #C4C0C1;
+	margin: 10px 0;
+	padding:5px 10px;
+}
+article.box .rollup>a{
+	color: inherit;
+	font-weight:bold;
+	display:block;
+	position: relative;
+	text-decoration: none !important;
+}
+article.box .rollup>a:after{
+	content: ">";
+	position: absolute;
+	right: 5px;
+	transition: transform .2s;
+}
+article.box .rollup>a.active:after{
+	transform: rotate(90deg);
+}
+article.box .rollup .content{
+	padding: 10px;
+	padding-top:30px;
+}
+
+
+.vendorMapSearch{
+	text-align:center;
+	padding-top:30px;
+}
+.vendorMapSearch br{
+	display:none;
+}
+.refineSearchBox{
+	display:none;
+	text-align:left;
+}
+#vendorsMap{
+    box-shadow: var(--shadow-on-blue);
+}
+#mapVendorResultsList{
+	background-color: white;
+}
