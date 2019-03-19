@@ -13,12 +13,10 @@
 <!-- original comment removed -->
 <!-- <intelxdk:version value="1.1"/> -->
 <preference name="phonegap-version" value="cli-6.5.0" /> <!-- <intelxdk:cordova-cli version="6.5.0"/> -->  <preference name="android-build-tool" value="gradle" /> 
-<name>Harp-A-Matic</name>
-<author>TurboHarp</author>
+<name>PDR Contractors</name>
+<author>VisualVoice</author>
 <content src="index.html"/>
-<access origin="https://harpamatic.com/*"/>
-<access origin="https://turboharp.com/*"/>
-<access origin="https://www.turboharp.com/*"/>
+<access origin="https://pdrcontractors.com/*"/>
 <access origin="mailto:*" launch-external="true"/>
 <allow-intent href="http://*/*"/>
 <allow-intent href="https://*/*"/>
@@ -38,40 +36,18 @@
 <plugin name="cordova-plugin-statusbar" spec="2.1.3" />
 <plugin name="cordova-plugin-device" spec="1.1.2" />
 <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
-<plugin name="cordova-plugin-audioinput" spec="https://github.com/edimuj/cordova-plugin-audioinput" /><!--   If available via Cordova registry; consider changing to an NPM reference. -->
-<plugin name="cordova-plugin-compat" spec="1.0.0" />
-<plugin name="cordova-plugin-insomnia" spec="https://github.com/EddyVerbruggen/Insomnia-PhoneGap-Plugin.git" /><!--   If available via Cordova registry; consider changing to an NPM reference. -->
-<plugin name="cordova-plugin-inappbrowser" spec="1.6.1" />
 <plugin name="cordova-plugin-whitelist" spec="1.2.2" />
-<plugin name="cordova-plugin-app-version" spec="0.1.9" />
-<plugin name="cordova-plugin-file" spec="4.3.3" />
-<plugin name="cordova-plugin-sqlite-2" spec="1.0.4" />
+<plugin name="cordova-plugin-geolocation" />
 <preference name="android-minSdkVersion" value="17"/>
 <preference name="android-targetSdkVersion" value="21"/>
 <preference name="android-installLocation" value="auto"/>
 <preference name="android-signed" value="true"/>
-<!-- <intelxdk:crosswalk version="shared"/> --> 
 
-
-
-<!--<preference name="xwalkMode" value="shared" />   -->
-<!--<plugin name="cordova-plugin-crosswalk-webview" />
-
-
-<preference name="xwalkVersion" value="org.xwalk:xwalk_core_library:23+" />
-<preference name="xwalkVersion" value="xwalk_core_library:23+" />
-<preference name="xwalkVersion" value="23+" />
-<preference name="xwalkVersion" value="23" />
--->
-
-
-<preference name="android-permission" value="MODIFY_AUDIO_SETTINGS"/>
 <preference name="splashscreen" value="splash"/>
-<!--creationInfo:{"src":"jsapp/template-blank-cordova-project-lite/sample.zip","projectTypeName":"com.intel.xdk.projecttype.jsapp"}-->
-<!-- <preference name="debuggable" value="false"/> -->
 <gap:config-file platform="android" parent="/manifest">
-     <application android:debuggable="false" />
+     <application android:debuggable="true" />
 </gap:config-file>
+
 <platform name="ios">
     <!-- below requires the splash screen plugin -->
     <!-- docs: https://github.com/apache/cordova-plugin-splashscreen -->
@@ -98,8 +74,6 @@
 </platform>
 <preference name="xwalkCommandLine" value="--disable-pull-to-refresh-effect --ignore-gpu-blacklist"/>
 <preference name="BackgroundColor" value="0x00000000" />
-<!-- <intelxdk:crosswalk xmlns:intelxdk="http://xdk.intel.com/ns/v1" xwalk-command-line="- -disable-pull-to-refresh-effect"/> -->
-<!-- <intelxdk:crosswalk xmlns:intelxdk="http://xdk.intel.com/ns/v1" xwalk-command-line="- -ignore-gpu-blacklist"/> -->
 <config-file platform="android" parent="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
 </config-file>
