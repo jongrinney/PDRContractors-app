@@ -25,14 +25,8 @@
 <allow-intent href="mailto:*"/>
 <allow-intent href="geo:*"/>
 <allow-intent href="market:*"/>
-<icon platform="android" src="package-assets/sizes/icon_orig-36.png" density="ldpi" width="36" height="36"/>
-<icon platform="android" src="package-assets/sizes/icon_orig-48.png" density="mdpi" width="48" height="48"/>
-<icon platform="android" src="package-assets/sizes/icon_orig-72.png" density="hdpi" width="72" height="72"/>
-<icon platform="android" src="package-assets/sizes/icon_orig-96.png" density="xhdpi" width="96" height="96"/>
-<splash platform="android" src="package-assets/screenshot 720.png" density="xhdpi" width="720" height="960" orientation="portrait"/>
-<splash platform="android" src="package-assets/screenshot 480.png" density="hdpi" width="480" height="640" orientation="portrait"/>
-<splash platform="android" src="package-assets/screenshot 320x426.png" density="mdpi" width="320" height="470" orientation="portrait"/>
-<splash platform="android" src="package-assets/screenshot 320.png" density="ldpi" width="320" height="426" orientation="portrait"/>
+<icon src="package-assets/icon.png"/>
+<splash src="package-assets/splash1.png"/>
 <plugin name="cordova-plugin-statusbar" spec="2.1.3" />
 <plugin name="cordova-plugin-device" spec="1.1.2" />
 <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
