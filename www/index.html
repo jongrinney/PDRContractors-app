@@ -256,7 +256,7 @@
 							$(':input[name="'+i+'"]').prop('checked',data.data[i]);
 						}
 						if(i.indexOf('img_')==0)
-							$(':input[name="'+i+'"]').prev('img').attr('src',data.data[i]);
+							$(':input[name="'+i+'"]').prev('img').attr('src','https://pdrcontractors.com'+data.data[i]);
 					}
 					$('.callout.warning, .callout.error').hide();
 					if(data.data.dues_payment_status=='Ending Soon')$('.callout.warning').show();
@@ -398,7 +398,7 @@
 						$('section.map form input[type="checkbox"]:checked').each(function(){
 							data[$(this).attr('name')]='on';
 						})
-						$.post('/json/findNearestVendors.json.php',data,function(data){
+						$.post('https://pdrcontractors.com/json/findNearestVendors.json.php',data,function(data){
 							cms.Vendors.populateMatchingVendors(data.vendors);
 						});
 					});

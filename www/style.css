@@ -172,3 +172,16 @@ article.box .rollup .content{
 #mapVendorResultsList{
 	background-color: white;
 }
+
+#map input[type="submit"]{
+	margin-top:5px;
+	padding:10px !important;
+}
+#map .refineSearch{
+	display:block;
+	padding-top:20px;
+}
+
+.bgBlue:after, .bgGreen:after, .bgYellow:after, .bgGray:after{
+	display:none !important;
+}
