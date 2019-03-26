@@ -63,13 +63,13 @@ P.asyncLoad = function(pluginsList){
 };
 
 P.asyncLoad([
-	['jquery','https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'],
+	['jquery','jquery-3.2.1.min.js'],
 	['login','login.js'],
 	['forms','https://pdrcontractors.com/cms/modules/forms/js/forms.js'],
 	['sweetalert','https://pdrcontractors.com/cms/plugins/sweetalert2/dist/sweetalert2.all.min.js'],
 	['mapbox','https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'],
 	['mapbox-cluster','https://pdrcontractors.com/js/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js'],
-	['template7','https://cdnjs.cloudflare.com/ajax/libs/template7/1.3.8/template7.min.js'],
+	['template7','template7.min.js'],
 ]);
 
 var cms = {};

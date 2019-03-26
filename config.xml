@@ -14,6 +14,7 @@
 <author>VisualVoice</author>
 <content src="index.html"/>
 <access origin="https://pdrcontractors.com/*"/>
+<access origin="https://api.mapbox.com/*"/>
 <access origin="mailto:*" launch-external="true"/>
 <allow-intent href="http://*/*"/>
 <allow-intent href="https://*/*"/>

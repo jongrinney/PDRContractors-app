@@ -22,6 +22,9 @@ input[type="button"]{
 main{
 	width:100vw;
 	top:0;
+	left:0;
+	min-height:100vh;
+	position:absolute;
 }
 
 main:not(.active),
@@ -36,10 +39,11 @@ section:not(.active),
     background-position: 0 -13vh;
 }
 #login .logo{
-	height: 45vh;
-    margin: 10vh 30px;
+	height: 35vh;
+    margin: 10vh auto;
 	background: url(logo-compressor.png) no-repeat center center;
     background-size: contain;
+	max-width: 232px;
 }
 #login form{
 	display:block;
