@@ -40,6 +40,8 @@ $('#loginForm').submit(function(e){
 			$('main').removeClass('active').filter('#app').addClass('active');
 			$('#profile').addClass('active');
 			window.userId = data.access.id;
+			getVendorId();
+			initMap();
 		}
 		else if(data.message == 'doShowResetPassword'){
 			if($('#loginForm').children().length==3){
