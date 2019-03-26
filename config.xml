@@ -63,6 +63,7 @@
     <preference name="AutoHideSplashScreen" value="false" />
     <preference name="SplashScreenDelay" value="10000" />
 	<preference name="FadeSplashScreen" value="false"/>
+	<meta-data android:name="android.max_aspect" android:value="2.1" />
 </platform>
 <preference name="BackgroundColor" value="0x00000000" />
 <config-file platform="android" parent="/manifest/application" mode="merge">
