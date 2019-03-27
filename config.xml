@@ -19,6 +19,7 @@
 <access origin="mailto:*" launch-external="true"/>
 <allow-intent href="http://*/*"/>
 <allow-intent href="https://*/*"/>
+<allow-intent href="mapbox:*"/>
 <allow-intent href="tel:*"/>
 <allow-intent href="sms:*"/>
 <allow-intent href="mailto:*"/>
