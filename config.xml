@@ -18,6 +18,8 @@
 <access origin="https://*.*.mapbox.com/*"/>
 <access origin="mailto:*" launch-external="true"/>
 <allow-intent href="http://*/*"/>
+<allow-intent href="http://*/*"/>
+<allow-intent href="file://*/*"/>
 <allow-intent href="https://*/*"/>
 <allow-intent href="mapbox:*"/>
 <allow-intent href="tel:*"/>
