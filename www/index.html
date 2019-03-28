@@ -274,7 +274,7 @@
 				cms.Vendors.tempVendors = vendors;
 				cms.Vendors.tempMarkerOnly = markerOnly;
 				if(typeof markerOnly == 'undefined' || markerOnly == false)
-					T.build('event','templates/partial.vendorListAdmin.htm',false,function(template){
+					T.build('event','/templates/partial.vendorListAdmin.htm',false,function(template){
 						if(vendors.length>0){
 							var out ='<div class="bgBlue" style="padding:0.83em;"><div class="mid"><h2 style="display:inline">Directory List </h2>('+vendors.length+'&nbsp;RESULTS)</div><div style="float:right;margin-top: -46px;margin-right: 60px;white-space: nowrap;">Sort By: <select class="sortResultsBy"><option>Distance: Closest First</option><option>Established: Oldest First</option><option>Established: Newest First</option><option>Name: A-Z</option><option>Name: Z-A</option></select></div></div><div id="mapVendorResultsList" class="mid">';
 							
