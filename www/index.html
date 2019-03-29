@@ -439,7 +439,7 @@
 				navigator.geolocation.getCurrentPosition(function(position) {
 					swal.hideLoading();
 					console.log(position);
-					$('input[name="number_Current_Longitude"]').val(position.coords.latitude);
+					$('input[name="number_Current_Latitude"]').val(position.coords.latitude);
 					$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
 					saveData();
 				},function(msg){
