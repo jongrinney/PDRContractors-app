@@ -40,7 +40,6 @@
 <preference name="android-targetSdkVersion" value="21"/>
 <preference name="android-installLocation" value="auto"/>
 <preference name="android-signed" value="true"/>
-<preference name='pgb-builder-version' value='1' />
 <preference name="splashscreen" value="splash"/>
 
 
@@ -70,14 +69,15 @@
 	<meta-data android:name="android.max_aspect" android:value="2.1" />
 </platform>
 <preference name="BackgroundColor" value="0x00000000" />
-<config-file platform="android" parent="/" mode="merge">
+<edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-</config-file>
-<config-file platform="android" parent="/" mode="merge">
 	<application android:debuggable="true" />
-</config-file>
-<config-file platform="android" parent="/manifest/application" mode="merge">
+</edit-config>
+<edit-config file="AndroidManifest.xml" target="/" mode="merge">
+	<application android:debuggable="true" />
+</edit-config>
+<edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
-</config-file>
+</edit-config>
 </widget>
