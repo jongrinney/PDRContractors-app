@@ -42,9 +42,7 @@
 <preference name="android-signed" value="true"/>
 
 <preference name="splashscreen" value="splash"/>
-<gap:config-file platform="android" parent="/manifest">
-     <application android:debuggable="true" />
-</gap:config-file>
+
 
 <platform name="ios">
     <!-- below requires the splash screen plugin -->
@@ -75,6 +73,9 @@
 <config-file platform="android" parent="/" mode="merge">
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+</config-file>
+<config-file platform="android" parent="/manifest" mode="merge">
+	<application android:debuggable="true" />
 </config-file>
 <config-file platform="android" parent="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
