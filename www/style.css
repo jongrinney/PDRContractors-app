@@ -177,7 +177,7 @@ article.box .rollup .content{
 }
 
 #map input[type="submit"]{
-	margin-top:5px;
+	margin-top:5px !important;
 	padding:10px !important;
 }
 #map .refineSearch{
