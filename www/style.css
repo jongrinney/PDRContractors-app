@@ -169,6 +169,9 @@ article.box .rollup .content{
 .vendorMap{
 	padding:0 !important;
 }
+.vendorMap .bgBlue{
+	padding-top:65px !important;
+}
 #vendorsMap{
     box-shadow: var(--shadow-on-blue);
 }
@@ -187,6 +190,7 @@ article.box .rollup .content{
 #mapVendorResultsList>div img{
 	float:none !important;
 	margin: auto !important;
+	margin-bottom: 20px !important;
 	display:block;
 }
 .bgBlue{
