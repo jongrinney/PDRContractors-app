@@ -8,7 +8,7 @@
 	version="1.0.18" 
 	android-versionCode="42"
 >
-<preference name="phonegap-version" value="cli-8.1.1" /> 
+<preference name="phonegap-version" value="cli-7.1.0" /> 
 <preference name="android-build-tool" value="gradle" /> 
 <name>PDR Contractors</name>
 <author>VisualVoice</author>
