@@ -166,6 +166,9 @@ article.box .rollup .content{
 	display:none;
 	text-align:left;
 }
+.vendorMap{
+	padding:0 !important;
+}
 #vendorsMap{
     box-shadow: var(--shadow-on-blue);
 }
@@ -181,7 +184,14 @@ article.box .rollup .content{
 	display:block;
 	padding-top:20px;
 }
-
+#mapVendorResultsList>div img{
+	float:none !important;
+	margin: auto !important;
+	display:block;
+}
+.bgBlue{
+	background-color: transparent !important;
+}
 .bgBlue:after, .bgGreen:after, .bgYellow:after, .bgGray:after{
 	display:none !important;
 }
