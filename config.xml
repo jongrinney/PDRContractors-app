@@ -58,7 +58,7 @@
     <preference name="StatusBarOverlaysWebView" value="false"/>
     <preference name="StatusBarBackgroundColor" value="#000000"/>
     <preference name="StatusBarStyle" value="lightcontent"/>
-</platform>
+</platform> 
 <platform name="android">
     <!-- below requires the splash screen plugin -->
     <!-- docs: https://github.com/apache/cordova-plugin-splashscreen -->
