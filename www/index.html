@@ -224,7 +224,6 @@
 				
 			});
 			
-			$('.useGPS button').click(getLocation);
 			$('#VendorsEditVendorForm').submit(function(){
 				getLocation();
 				return false;
@@ -435,13 +434,16 @@
 		}
 		
 		function getLocation(){
+			swal.showLoading();
 			if (navigator.geolocation)
 				navigator.geolocation.getCurrentPosition(function(position) {
+					swal.hideLoading();
 					console.log(position);
 					$('input[name="number_Current_Longitude"]').val(position.coords.latitude);
 					$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
 					saveData();
 				},function(msg){
+					swal.hideLoading();
 					swal('Error',msg,'error');
 				});
 			else
