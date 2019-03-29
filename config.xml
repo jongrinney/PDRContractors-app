@@ -75,6 +75,6 @@
 </edit-config>
 <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
-    <activity android:debuggable="true" />
+    <activity android:debuggable="false" />
 </edit-config>
 </widget>
