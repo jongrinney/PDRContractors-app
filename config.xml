@@ -72,9 +72,9 @@
 <edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
 	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-	<application android:debuggable="true" />
 </edit-config>
 <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
+    <activity android:debuggable="true" />
 </edit-config>
 </widget>
