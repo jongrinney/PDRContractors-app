@@ -174,7 +174,7 @@
 		
 		document.getElementById('login').classList.add('active');
 		P.jquery.ready(function(){
-			
+			navigator.splashscreen.hide();
 			//init tabs
 			$('nav a[data-section]').click(function(){
 				$('section').removeClass('active').filter('#'+$(this).attr('data-section')).addClass('active');
