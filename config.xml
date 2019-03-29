@@ -72,6 +72,10 @@
 	<meta-data android:name="android.max_aspect" android:value="2.1" />
 </platform>
 <preference name="BackgroundColor" value="0x00000000" />
+<config-file platform="android" parent="/manifest" mode="merge">
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+</config-file>
 <config-file platform="android" parent="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
 </config-file>

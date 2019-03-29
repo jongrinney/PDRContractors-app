@@ -438,12 +438,15 @@
 		function getLocation(){
 			if (navigator.geolocation)
 				navigator.geolocation.getCurrentPosition(function(position) {
+					console.log(position);
 					$('input[name="number_Current_Longitude"]').val(position.coords.latitude);
 					$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
 					saveData();
+				},function(msg){
+					swal('Error',msg,'error');
 				});
 			else
-				x.innerHTML = "Geolocation is not supported by this browser.";
+				swal('Error','Geolocation is not supported.','error');
 		}
 		
 		
