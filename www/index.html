@@ -438,7 +438,7 @@
 			if (navigator.geolocation)
 				navigator.geolocation.getCurrentPosition(function(position) {
 					swal.hideLoading();
-					alert(JSON.stringify(position.coords))
+					alert(JSON.stringify(position))
 					console.log(position);
 					$('input[name="number_Current_Latitude"]').val(position.coords.latitude);
 					$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
