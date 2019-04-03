@@ -29,8 +29,30 @@
 <allow-intent href="mailto:*"/>
 <allow-intent href="geo:*"/>
 <allow-intent href="market:*"/>
-<icon src="icon.png"/>
-<splash src="splash1.png"/>
+<icon src="package-assets/icon.png"/>
+<platform name="ios">
+    <icon src="package-assets/ios/20.png" width="20" height="20" />
+    <icon src="package-assets/ios/29.png" width="29" height="29" />
+    <icon src="package-assets/ios/40.png" width="40" height="40" />
+    <icon src="package-assets/ios/50.png" width="50" height="50" />
+    <icon src="package-assets/ios/57.png" width="57" height="57" />
+    <icon src="package-assets/ios/58.png" width="58" height="58" />
+    <icon src="package-assets/ios/60.png" width="60" height="60" />
+    <icon src="package-assets/ios/72.png" width="72" height="72" />
+    <icon src="package-assets/ios/76.png" width="76" height="76" />
+    <icon src="package-assets/ios/80.png" width="80" height="80" />
+    <icon src="package-assets/ios/87.png" width="87" height="87" />
+    <icon src="package-assets/ios/100.png" width="100" height="100" />
+    <icon src="package-assets/ios/114.png" width="114" height="114" />
+    <icon src="package-assets/ios/120.png" width="120" height="120" />
+    <icon src="package-assets/ios/144.png" width="144" height="144" />
+    <icon src="package-assets/ios/152.png" width="152" height="152" />
+    <icon src="package-assets/ios/167.png" width="167" height="167" />
+    <icon src="package-assets/ios/180.png" width="180" height="180" />
+    <icon src="package-assets/ios/1024.png" width="1024" height="1024" />
+</platform>
+
+<splash src="package-assets/splash1.png"/>
 <plugin name="cordova-plugin-statusbar" spec="2.1.3" />
 <plugin name="cordova-plugin-device" spec="1.1.2" />
 <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
