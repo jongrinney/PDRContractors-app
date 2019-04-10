@@ -5,8 +5,8 @@
 	xmlns:cdv="http://cordova.apache.org/ns/1.0" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	id="com.pdrcontractors.app" 
-	version="1.0.19"
-	android-versionCode="43"
+	version="1.0.18"
+	android-versionCode="44"
 >
 <preference name="phonegap-version" value="cli-7.1.0" /> 
 <preference name="android-build-tool" value="gradle" /> 
@@ -29,7 +29,7 @@
 <allow-intent href="mailto:*"/>
 <allow-intent href="geo:*"/>
 <allow-intent href="market:*"/>
-<icon src="package-assets/icon.png"/>
+<icon platform="android" src="package-assets/icon.png"/>
 <platform name="ios">
     <icon src="package-assets/ios/20.png" width="20" height="20" />
     <icon src="package-assets/ios/29.png" width="29" height="29" />
