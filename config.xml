@@ -5,7 +5,7 @@
 	xmlns:cdv="http://cordova.apache.org/ns/1.0" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	id="com.pdrcontractors.app" 
-	version="1.0.19"
+	version="1.0.20"
 	android-versionCode="45"
 >
 <preference name="phonegap-version" value="cli-7.1.0" /> 
