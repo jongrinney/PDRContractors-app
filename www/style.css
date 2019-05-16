@@ -12,7 +12,13 @@ body{
 	background: linear-gradient(#17668D, #043E5E);
 	min-height:500px;
 }
-
+.ios-fixed-fix{
+	position:fixed;
+    top:-1px; 
+    height:1px; 
+    width:100%; 
+    background:white;
+}
 a,
 button,
 input[type="submit"],
@@ -54,7 +60,6 @@ section:not(.active),
 	max-width:300px;
 	box-shadow: var(--shadow-on-gray);
 }
-
 nav{
 	position:fixed;
 	top:30px;

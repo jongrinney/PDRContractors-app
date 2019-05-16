@@ -5,7 +5,7 @@
 	xmlns:cdv="http://cordova.apache.org/ns/1.0" 
 	xmlns:android="http://schemas.android.com/apk/res/android" 
 	id="com.pdrcontractors.app" 
-	version="1.0.20"
+	version="1.0.21"
 	android-versionCode="45"
 >
 <preference name="phonegap-version" value="cli-7.1.0" /> 
@@ -70,7 +70,7 @@
     <!-- docs: https://github.com/apache/cordova-plugin-splashscreen -->
     <preference name="AutoHideSplashScreen" value="true"/>
     <preference name="FadeSplashScreen" value="false"/>
-    <preference name="FadeSplashScreenDuration" value="2"/>
+    <preference name="FadeSplashScreenDuration" value="1"/>
     <preference name="ShowSplashScreenSpinner" value="true"/>
 
     <!-- below requires the status bar plugin -->
