@@ -53,7 +53,7 @@
 </platform>
 
 <splash src="package-assets/splash1.png"/>
-<plugin name="cordova-plugin-statusbar" spec="2.1.3" />
+<plugin name="cordova-plugin-statusbar" spec="2.4.2" />
 <plugin name="cordova-plugin-device" spec="1.1.2" />
 <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
 <plugin name="cordova-plugin-whitelist" spec="1.2.2" />
@@ -78,7 +78,7 @@
     <!-- see http://devgirl.org/2014/07/31/phonegap-developers-guid -->
     <preference name="StatusBarOverlaysWebView" value="false"/>
     <preference name="StatusBarBackgroundColor" value="#000000"/>
-    <preference name="StatusBarStyle" value="lightcontent"/>
+    <preference name="StatusBarStyle" value="blacktranslucent"/>
 </platform> 
 <platform name="android">
     <!-- below requires the splash screen plugin -->
@@ -97,6 +97,6 @@
 </edit-config>
 <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
-    <activity android:debuggable="false" />
+    <activity android:debuggable="true" />
 </edit-config>
 </widget>
