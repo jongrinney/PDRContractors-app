@@ -67,7 +67,7 @@ P.asyncLoad([
 	['login','login.js'],
 	['forms','https://pdrcontractors.com/cms/modules/forms/js/forms.js'],
 	['sweetalert','https://pdrcontractors.com/cms/plugins/sweetalert2/dist/sweetalert2.all.min.js'],
-	['mapbox','https://api.mapbox.com/mapbox.js/v3.1.1/mapbox.js'],
+	['mapbox','https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'],
 	['mapbox-cluster','https://pdrcontractors.com/js/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js'],
 	['template7','template7.min.js'],
 ]);
