@@ -205,3 +205,12 @@ article.box .rollup .content{
 .bgBlue:after, .bgGreen:after, .bgYellow:after, .bgGray:after{
 	display:none !important;
 }
+
+.simpleChecker_filler{
+	width: 100px !important;
+}
+.simpleChecker_handler,
+.simpleChecker_fillerLeft,
+.simpleChecker_fillerRight{
+	width: 50px !important;
+}
