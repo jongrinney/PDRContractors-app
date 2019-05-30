@@ -8,8 +8,8 @@ body{
 	padding:0;
 }
 body{
-	background: linear-gradient(#FFF, #D2D4D3);
-	background: linear-gradient(#17668D, #043E5E);
+	background: linear-gradient(#FFF, #D2D4D3) fixed;
+	background: linear-gradient(#17668D, #043E5E) fixed;
 	min-height:500px;
 }
 .ios-fixed-fix{
@@ -182,6 +182,7 @@ article.box .rollup .content{
 }
 #mapVendorResultsList{
 	background-color: white;
+	max-height: none;
 }
 
 #map input[type="submit"]{
