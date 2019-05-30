@@ -78,7 +78,7 @@
     <!-- see http://devgirl.org/2014/07/31/phonegap-developers-guid -->
     <preference name="StatusBarOverlaysWebView" value="false"/>
     <preference name="StatusBarBackgroundColor" value="#000000"/>
-    <preference name="StatusBarStyle" value="blacktranslucent"/>
+    <preference name="StatusBarStyle" value="default"/>
 </platform> 
 <platform name="android">
     <!-- below requires the splash screen plugin -->
@@ -97,6 +97,6 @@
 </edit-config>
 <edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
     <activity android:launchMode="singleTop" />
-    <activity android:debuggable="true" />
+    <activity android:debuggable="false" />
 </edit-config>
 </widget>
