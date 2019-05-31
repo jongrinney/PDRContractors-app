@@ -446,7 +446,7 @@
 				},function(msg){
 					swal.hideLoading();
 					swal('Error',msg,'error');
-				},{enableHighAccuracy:true});
+				},{enableHighAccuracy:true, timeout: 1000});
 			else
 				swal('Error','Geolocation is not supported.','error');
 		}

@@ -98,4 +98,7 @@
     <activity android:launchMode="singleTop" />
     <activity android:debuggable="false" />
 </edit-config>
+<edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+    <string>need location access to set your current location</string>
+</edit-config>
 </widget>
