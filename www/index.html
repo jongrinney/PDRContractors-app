@@ -82,6 +82,7 @@
 		</section>
 	</main>
 	
+	<script src="cordova.js"></script>
 	<script src="pluginLoader.js"></script>
 	<script>
 		
@@ -226,7 +227,7 @@
 			});
 			
 			$('#VendorsEditVendorForm').submit(function(){
-				getLocation();
+				saveData();
 				return false;
 			});
 		});
