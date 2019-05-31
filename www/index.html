@@ -201,6 +201,9 @@
 				//current location
 				$data.find('#VendorsEditVendorForm').children('.currentLocation').appendTo($('#currentLocationContainer'));
 				$('#currentLocationContainer').find('.cell').first().remove();
+				$('#currentLocationContainer input').keyup(function(){
+					$('input[name="number_Current_Latitude"], input[name="number_Current_Longitude"]').val('');
+				});
 				
 				//business options
 				$data.find('#VendorsEditVendorForm').children('.businessOptions').appendTo($('#businessOptionsContainer'));
