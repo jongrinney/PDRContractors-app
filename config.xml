@@ -60,7 +60,7 @@
 <plugin name="cordova-plugin-geolocation" />
 <plugin name="cordova-plugin-keyboard" />
 <preference name="android-minSdkVersion" value="26"/>
-<preference name="android-targetSdkVersion" value="26"/>
+<preference name="android-targetSdkVersion" value="28"/>
 <preference name="android-installLocation" value="auto"/>
 <preference name="android-signed" value="true"/>
 <preference name="splashscreen" value="splash"/>
