@@ -58,6 +58,7 @@
 <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
 <plugin name="cordova-plugin-whitelist" spec="1.2.2" />
 <plugin name="cordova-plugin-geolocation" />
+<plugin name="cordova-plugin-keyboard" />
 <preference name="android-minSdkVersion" value="26"/>
 <preference name="android-targetSdkVersion" value="26"/>
 <preference name="android-installLocation" value="auto"/>
