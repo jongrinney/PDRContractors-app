@@ -47,5 +47,7 @@ Temporary Items
 .apdisk
 
 # phonegap temp
-/platforms/browser
+/platforms
 /plugins/
+/node_modules
+

@@ -1,105 +1,89 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<widget 
-	xmlns="http://www.w3.org/ns/widgets" 
-	xmlns:gap="http://phonegap.com/ns/1.0" 
-	xmlns:cdv="http://cordova.apache.org/ns/1.0" 
-	xmlns:android="http://schemas.android.com/apk/res/android" 
-	id="com.pdrcontractors.app" 
-	version="1.0.21"
-	android-versionCode="46"
->
-<preference name="phonegap-version" value="cli-7.1.0" /> 
-<preference name="android-build-tool" value="gradle" /> 
-<name>PDR Contractors</name>
-<author>VisualVoice</author>
-<content src="index.html"/>
-<access origin="https://pdrcontractors.com/*"/>
-<access origin="http://*.mapbox.com/*"/>
-<access origin="http://*.*.mapbox.com/*"/>
-<access origin="https://*.mapbox.com/*"/>
-<access origin="https://*.*.mapbox.com/*"/>
-<access origin="mailto:*" launch-external="true"/>
-<allow-intent href="http://*/*"/>
-<allow-intent href="http://*/*"/>
-<allow-intent href="file://*/*"/>
-<allow-intent href="https://*/*"/>
-<allow-intent href="mapbox:*"/>
-<allow-intent href="tel:*"/>
-<allow-intent href="sms:*"/>
-<allow-intent href="mailto:*"/>
-<allow-intent href="geo:*"/>
-<allow-intent href="market:*"/>
-<icon platform="android" src="package-assets/icon.png"/>
-<platform name="ios">
-    <icon src="package-assets/ios/20.png" width="20" height="20" />
-    <icon src="package-assets/ios/29.png" width="29" height="29" />
-    <icon src="package-assets/ios/40.png" width="40" height="40" />
-    <icon src="package-assets/ios/50.png" width="50" height="50" />
-    <icon src="package-assets/ios/57.png" width="57" height="57" />
-    <icon src="package-assets/ios/58.png" width="58" height="58" />
-    <icon src="package-assets/ios/60.png" width="60" height="60" />
-    <icon src="package-assets/ios/72.png" width="72" height="72" />
-    <icon src="package-assets/ios/76.png" width="76" height="76" />
-    <icon src="package-assets/ios/80.png" width="80" height="80" />
-    <icon src="package-assets/ios/87.png" width="87" height="87" />
-    <icon src="package-assets/ios/100.png" width="100" height="100" />
-    <icon src="package-assets/ios/114.png" width="114" height="114" />
-    <icon src="package-assets/ios/120.png" width="120" height="120" />
-    <icon src="package-assets/ios/144.png" width="144" height="144" />
-    <icon src="package-assets/ios/152.png" width="152" height="152" />
-    <icon src="package-assets/ios/167.png" width="167" height="167" />
-    <icon src="package-assets/ios/180.png" width="180" height="180" />
-    <icon src="package-assets/ios/1024.png" width="1024" height="1024" />
-</platform>
-
-<splash src="package-assets/splash1.png"/>
-<plugin name="cordova-plugin-statusbar" spec="2.4.2" />
-<plugin name="cordova-plugin-device" spec="1.1.2" />
-<plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
-<plugin name="cordova-plugin-whitelist" spec="1.2.2" />
-<plugin name="cordova-plugin-geolocation" />
-<plugin name="cordova-plugin-keyboard" />
-<preference name="android-minSdkVersion" value="26"/>
-<preference name="android-targetSdkVersion" value="28"/>
-<preference name="android-installLocation" value="auto"/>
-<preference name="android-signed" value="true"/>
-<preference name="splashscreen" value="splash"/>
-
-
-<platform name="ios">
-    <!-- below requires the splash screen plugin -->
-    <!-- docs: https://github.com/apache/cordova-plugin-splashscreen -->
-    <preference name="AutoHideSplashScreen" value="true"/>
-    <preference name="FadeSplashScreen" value="false"/>
-    <preference name="FadeSplashScreenDuration" value="1"/>
-    <preference name="ShowSplashScreenSpinner" value="true"/>
-
-    <!-- below requires the status bar plugin -->
-    <!-- docs: https://github.com/apache/cordova-plugin-statusbar -->
-    <!-- see http://devgirl.org/2014/07/31/phonegap-developers-guid -->
-    <preference name="StatusBarOverlaysWebView" value="false"/>
-    <preference name="StatusBarStyle" value="default"/>
-</platform> 
-<platform name="android">
-    <!-- below requires the splash screen plugin -->
-    <!-- docs: https://github.com/apache/cordova-plugin-splashscreen -->
-    <preference name="SplashMaintainAspectRatio" value="false"/>
-	<preference name="SplashScreen" value="screen" />
-    <preference name="AutoHideSplashScreen" value="true" />
-    <preference name="SplashScreenDelay" value="2000" />
-	<preference name="FadeSplashScreen" value="false"/>
-	<meta-data android:name="android.max_aspect" android:value="2.1" />
-</platform>
-<preference name="BackgroundColor" value="0x00000000" />
-<edit-config file="AndroidManifest.xml" target="/manifest" mode="merge">
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-</edit-config>
-<edit-config file="AndroidManifest.xml" target="/manifest/application" mode="merge">
-    <activity android:launchMode="singleTop" />
-    <activity android:debuggable="false" />
-</edit-config>
-<edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
-    <string>need location access to set your current location</string>
-</edit-config>
+<?xml version='1.0' encoding='utf-8'?>
+<widget android-versionCode="46" id="com.pdrcontractors.app" version="1.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:gap="http://phonegap.com/ns/1.0">
+    <preference name="phonegap-version" value="cli-7.1.0" />
+    <preference name="android-build-tool" value="gradle" />
+    <name>PDR Contractors</name>
+    <author>VisualVoice</author>
+    <content src="index.html" />
+    <access origin="https://pdrcontractors.com/*" />
+    <access origin="http://*.mapbox.com/*" />
+    <access origin="http://*.*.mapbox.com/*" />
+    <access origin="https://*.mapbox.com/*" />
+    <access origin="https://*.*.mapbox.com/*" />
+    <access launch-external="true" origin="mailto:*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="file://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="mapbox:*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <allow-intent href="market:*" />
+    <icon platform="android" src="package-assets/icon.png" />
+    <platform name="ios">
+        <icon height="20" src="package-assets/ios/20.png" width="20" />
+        <icon height="29" src="package-assets/ios/29.png" width="29" />
+        <icon height="40" src="package-assets/ios/40.png" width="40" />
+        <icon height="50" src="package-assets/ios/50.png" width="50" />
+        <icon height="57" src="package-assets/ios/57.png" width="57" />
+        <icon height="58" src="package-assets/ios/58.png" width="58" />
+        <icon height="60" src="package-assets/ios/60.png" width="60" />
+        <icon height="72" src="package-assets/ios/72.png" width="72" />
+        <icon height="76" src="package-assets/ios/76.png" width="76" />
+        <icon height="80" src="package-assets/ios/80.png" width="80" />
+        <icon height="87" src="package-assets/ios/87.png" width="87" />
+        <icon height="100" src="package-assets/ios/100.png" width="100" />
+        <icon height="114" src="package-assets/ios/114.png" width="114" />
+        <icon height="120" src="package-assets/ios/120.png" width="120" />
+        <icon height="144" src="package-assets/ios/144.png" width="144" />
+        <icon height="152" src="package-assets/ios/152.png" width="152" />
+        <icon height="167" src="package-assets/ios/167.png" width="167" />
+        <icon height="180" src="package-assets/ios/180.png" width="180" />
+        <icon height="1024" src="package-assets/ios/1024.png" width="1024" />
+    </platform>
+    <splash src="package-assets/splash1.png" />
+    <preference name="android-minSdkVersion" value="26" />
+    <preference name="android-targetSdkVersion" value="28" />
+    <preference name="android-installLocation" value="auto" />
+    <preference name="android-signed" value="true" />
+    <preference name="splashscreen" value="splash" />
+    <platform name="ios">
+        <preference name="AutoHideSplashScreen" value="true" />
+        <preference name="FadeSplashScreen" value="false" />
+        <preference name="FadeSplashScreenDuration" value="1" />
+        <preference name="ShowSplashScreenSpinner" value="true" />
+        <preference name="StatusBarOverlaysWebView" value="false" />
+        <preference name="StatusBarStyle" value="default" />
+    </platform>
+    <platform name="android">
+        <preference name="SplashMaintainAspectRatio" value="false" />
+        <preference name="SplashScreen" value="screen" />
+        <preference name="AutoHideSplashScreen" value="true" />
+        <preference name="SplashScreenDelay" value="2000" />
+        <preference name="FadeSplashScreen" value="false" />
+        <meta-data android:name="android.max_aspect" android:value="2.1" />
+    </platform>
+    <preference name="BackgroundColor" value="0x00000000" />
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest">
+        <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+        <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    </edit-config>
+    <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
+        <activity android:launchMode="singleTop" />
+        <activity android:debuggable="true" />
+    </edit-config>
+    <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
+        <string>need location access to set your current location</string>
+    </edit-config>
+    <engine name="android" spec="^8.0.0" />
+    <engine name="ios" spec="^5.0.1" />
+    <engine name="browser" spec="^6.0.0" />
+    <plugin name="cordova-plugin-whitelist" spec="1.2.2" />
+    <plugin name="cordova-plugin-statusbar" spec="2.4.2" />
+    <plugin name="cordova-plugin-device" spec="1.1.2" />
+    <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
+    <plugin name="cordova-plugin-geolocation" />
+    <plugin name="cordova-plugin-keyboard" />
 </widget>

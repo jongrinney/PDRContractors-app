@@ -209,6 +209,33 @@
 				$data.find('#VendorsEditVendorForm').children('.businessOptions').appendTo($('#businessOptionsContainer'));
 				$('#businessOptionsContainer').find('.cell').first().remove();
 				$('#businessOptionsContainer').find('fieldset').attr('data-type','toggle').unwrap().wrapInner('<div></div>');
+				$checkboxes = $('#businessOptionsContainer fieldset');
+				$('<div></div>')
+				.append($checkboxes.eq(0))
+				.append($checkboxes.eq(3))
+				.append($checkboxes.eq(6))
+				.append($checkboxes.eq(9))
+				.append($checkboxes.eq(12))
+				.append($checkboxes.eq(15))
+				.append($checkboxes.eq(18))
+				//-----------
+				.append($checkboxes.eq(1))
+				.append($checkboxes.eq(4))
+				.append($checkboxes.eq(7))
+				.append($checkboxes.eq(10))
+				.append($checkboxes.eq(13))
+				.append($checkboxes.eq(16))
+				.append($checkboxes.eq(19))
+				//----------
+				.append($checkboxes.eq(2))
+				.append($checkboxes.eq(5))
+				.append($checkboxes.eq(8))
+				.append($checkboxes.eq(11))
+				.append($checkboxes.eq(14))
+				.append($checkboxes.eq(17))
+				.append($checkboxes.eq(20))
+				.appendTo($('#businessOptionsContainer').empty());
+
 				$('#businessOptionsContainer').find('input[type="checkbox"]').wrap('<label></label>').attr('data-values','No|Yes').attr('data-position','right').change(function(){
 					saveData();
 				});
@@ -315,8 +342,10 @@
 				}
 	
 				//add marker
-				for(var i=0;i<vendors.length;i++){
-					var marker = L.marker(new L.LatLng(vendors[i].number_Latitude, vendors[i].number_Longitude), {icon: icon,draggable: false});
+				for(var i=0;i<vendors.length;i++)
+					for(var j in vendors[i].locations){
+						if(typeof vendors[i].latitude === 'undefined') continue;
+					var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {icon: pins[((vendors[i].locations[j].type == 'permanent')?'default':'temporary')],draggable: false});
 					marker.data = vendors[i];
 					marker.bindPopup(
 						vendors[i].text_Company_Name+'<br> \
@@ -407,12 +436,22 @@
 					});
 			
 					//format marker icon
-					window.icon = L.icon({
-						iconUrl: "https://pdrcontractors.com/imgs/site-identity/mstile-150x150.png",
-						iconSize: [48, 48],
-						iconAnchor: [24, 48],
-						popupAnchor: [0, -48]
-					});
+					window.pins = {
+						default: L.icon({
+							iconUrl: "/imgs/pins/default.png",
+							iconSize: [25, 34],
+							iconAnchor: [12, 34],
+							popupAnchor: [0, -30]
+						}),
+						temporary: L.icon({
+							iconUrl: "/imgs/pins/temporary.png",
+							iconSize: [25, 34],
+							iconAnchor: [12, 34],
+							popupAnchor: [0, -30]
+						}),
+						// clusters pins are styled in base.css .marker-cluster
+					};
+
 				});
 			});
 			
@@ -466,7 +505,7 @@
 				swal.hideLoading();
 				if(data.message=='good'){
 					if(data.changes)
-						swal('Success','Some changes may be pending appproval from an administrator.','success').then(function(){
+						swal('Success','Some changes may be pending approval from an administrator.','success').then(function(){
 							getUserData();
 						});
 					else
