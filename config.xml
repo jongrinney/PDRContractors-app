@@ -49,6 +49,7 @@
     <preference name="android-installLocation" value="auto" />
     <preference name="android-signed" value="true" />
     <preference name="splashscreen" value="splash" />
+    <preference name="orientation" value="portrait" />
     <platform name="ios">
         <preference name="AutoHideSplashScreen" value="true" />
         <preference name="FadeSplashScreen" value="false" />
