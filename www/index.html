@@ -301,8 +301,8 @@
 		var cms={Vendors:{
 			markers:[],
 			populateMatchingVendors: (vendors, markerOnly)=>{
-				this.tempVendors = vendors;
-				this.tempMarkerOnly = markerOnly;
+				cms.Vendors.tempVendors = vendors;
+				cms.Vendors.tempMarkerOnly = markerOnly;
 
 				//remove existing pins
 				markersLayer.clearLayers();
@@ -311,7 +311,7 @@
 					if (typeof marker !== 'undefined' && marker !== null) marker.remove();
 				}
 				if (typeof markerOnly == 'undefined' || markerOnly == false)
-					if (vendors.length > 0) this.buildVendorList(vendors);
+					if (vendors.length > 0) cms.Vendors.buildVendorList(vendors);
 					else if (window.location.pathname == '/favorite-contractors') {
 						out =
 							'<center><h3>No results to display.</h3> Either you filters are set to high or you have not favorited any vendors. Please either adjust your filters or return to the <a href="/">home page</a> and click the green star next to a vendor to save it to your favorites list.</center>';
