@@ -58,14 +58,14 @@ P.asyncLoad = function(pluginsList) {
 };
 
 P.asyncLoad([
-	['jquery', 'jquery-3.2.1.min.js'],
-	['login', 'login.js'],
+	['jquery', 'js/jquery-3.2.1.min.js'],
+	['login', 'js/login.js'],
 	['forms', 'https://pdrcontractors.com/cms/modules/forms/js/forms.js'],
 	['sweetalert', 'https://pdrcontractors.com/cms/plugins/sweetalert2/dist/sweetalert2.all.min.js'],
 	['mapbox', 'https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'],
 	['mapbox-cluster', 'https://pdrcontractors.com/js/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js'],
-	['template7', 'template7.min.js'],
-	['moment', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'],
+	['template7', 'js/template7.min.js'],
+	['moment', 'js/moment.js'],
 ]);
 
 var cms = {};
