@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://pdrcontractors.com/cms/plugins/foundation-6.4.2-custom/css/foundation.min.css">
-    <link rel="stylesheet" href="https://pdrcontractors.com/cms/css/base.extended.css">
     <link rel="stylesheet" href="https://pdrcontractors.com/css/base.css">
-    <link rel="stylesheet" href="https://pdrcontractors.com/css/extended.css">
     <link rel="stylesheet" href="fonts.css">
-    <link rel="stylesheet" href="https://pdrcontractors.com/cms/modules/forms/css/forms.css">
-	<link href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' rel='stylesheet' />
     <link rel="stylesheet" href="style.css" />
+    <link rel="preload" href="https://pdrcontractors.com/cms/fonts/fontawesome-free-5.0.6/web-fonts-with-css/css/fontawesome-all.min.css" as='stylesheet' onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://pdrcontractors.com/cms/css/base.extended.css" as='stylesheet' onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://pdrcontractors.com/css/extended.css" as='stylesheet' onload="this.onload=null;this.rel='stylesheet'">
+    <link rel="preload" href="https://pdrcontractors.com/cms/modules/forms/css/forms.css" as='stylesheet' onload="this.onload=null;this.rel='stylesheet'">
+	<link rel="preload" href='https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.css' as='stylesheet' onload="this.onload=null;this.rel='stylesheet'">
     <title>PDR Contractors</title>
   </head>
   <body>
@@ -116,7 +117,6 @@
 			});
 		});
 		window.format = function(type, string){
-			console.log('format',type,string);
 			if(string === null) return '';
 			string = String(string);
 			var orig = string;
@@ -308,12 +308,31 @@
 						if(vendors.length>0){
 							var out ='<div class="bgBlue" style="padding:0.83em;"><div class="mid"><h2 style="display:inline">Directory List </h2>('+vendors.length+'&nbsp;RESULTS)</div><div style="float:right;margin-top: -46px;margin-right: 60px;white-space: nowrap;">Sort By: <select class="sortResultsBy"><option>Distance: Closest First</option><option>Established: Oldest First</option><option>Established: Newest First</option><option>Name: A-Z</option><option>Name: Z-A</option></select></div></div><div id="mapVendorResultsList" class="mid">';
 							
-							if(cms.Vendors.curSort == 'Distance: Closest First') vendors = vendors.sort(function(a,b) { return a.number_distance - b.number_distance;});
-							if(cms.Vendors.curSort == 'Established: Oldest First') vendors = vendors.sort(function(a,b) { return a.text_year_established - b.text_year_established;});
-							if(cms.Vendors.curSort == 'Established: Newest First') vendors = vendors.sort(function(a,b) { return b.text_year_established - a.text_year_established;});
-							if(cms.Vendors.curSort == 'Name: A-Z') vendors = vendors.sort(function(a,b) { return a.text_Company_Name.localeCompare(b.text_Company_Name);});
-							if(cms.Vendors.curSort == 'Name: Z-A') vendors = vendors.sort(function(a,b) { return b.text_Company_Name.localeCompare(a.text_Company_Name);});
-							
+								if (Vendors.curSort == 'Distance')
+									vendors = vendors.sort(function(a, b) {
+										return b.bool_isFavorited - a.bool_isFavorited || a.number_distance - b.number_distance;
+									});
+								if (Vendors.curSort == 'Experience')
+									vendors = vendors.sort(function(a, b) {
+										return b.bool_isFavorited - a.bool_isFavorited || a.text_year_established - b.text_year_established;
+									});
+								if (Vendors.curSort == 'Business Name (A-Z)')
+									vendors = vendors.sort(function(a, b) {
+										return b.bool_isFavorited - a.bool_isFavorited || a.text_Company_Name.localeCompare(b.text_Company_Name);
+									});
+								if (Vendors.curSort == 'Business Name (Z-A)')
+									vendors = vendors.sort(function(a, b) {
+										return b.bool_isFavorited - a.bool_isFavorited || b.text_Company_Name.localeCompare(a.text_Company_Name);
+									});
+								if (Vendors.curSort == 'Contact Name (A-Z)')
+									vendors = vendors.sort(function(a, b) {
+										return b.bool_isFavorited - a.bool_isFavorited || a.text_Contact_Name.localeCompare(b.text_Contact_Name);
+									});
+								if (Vendors.curSort == 'Contact Name (Z-A)')
+									vendors = vendors.sort(function(a, b) {
+										return b.bool_isFavorited - a.bool_isFavorited || b.text_Contact_Name.localeCompare(a.text_Contact_Name);
+									});
+
 							for(var i=0;i<vendors.length;i++){
 								vendors[i].number_distance = Math.round(vendors[i].number_distance*10)/10;
 								out+=template(vendors[i]);
@@ -321,6 +340,16 @@
 							out+='</div>';
 							$('#mapVendorResults').html(out).show();
 							
+							//favorites
+							$('#mapVendorResults .favorite').click(function() {
+								$.post('/json/toggleFavorite.json.php', { vendor: $(this).attr('data-vendor') });
+								$(this).toggleClass('fas far');
+								var text = $(this).is('.far') ? 'Add to Favorites' : 'Favorited';
+								$(this)
+									.children('span')
+									.text(text);
+							});
+
 							$('#Vendors .sortResultsBy').val(cms.Vendors.curSort).change(function(){
 								cms.Vendors.curSort = $(this).val();
 								cms.Vendors.populateMatchingVendors(cms.Vendors.tempVendors, cms.Vendors.tempMarkerOnly);
@@ -402,7 +431,7 @@
 		function initMap(){
 			P.mapbox.init(function(){
 				P['mapbox-cluster'].init(function(){
-					L.mapbox.accessToken = 'pk.eyJ1IjoidmlzdWFsdm9pY2VkZXNpZ24iLCJhIjoiY2puZzhnYXBvMDBqYTN1cXp6d3lpdXJjNCJ9.jggXMUBp1ksOUMwruT9STA';
+					L.mapbox.accessToken = 'pk.eyJ1IjoidmlzdWFsdm9pY2VkZXNpZ24iLCJhIjoiY2puZzhnYXBvMDBqYTN1cXp6d3lpdXJjNCJ9.jggXMUBp1ksOUMwruT9STA'; // cSpell:ignore Mwru
 					window.map = L.mapbox.map('vendorsMap', 'mapbox.streets');
 					window.markers = [];
 					L.mapbox.styleLayer('mapbox://styles/visualvoicedesign/cjnugphck2elp2sn0md3mmzre');
@@ -421,7 +450,7 @@
 					if (map.scrollWheelZoom) map.scrollWheelZoom.disable();
 					
 					map.on('moveend', function(){ 
-						console.log('movened');
+						console.log('moveend');
 						var bounds = map.getBounds();
 						console.log('bounds',bounds);
 						var data = {
@@ -448,6 +477,12 @@
 						}),
 						temporary: L.icon({
 							iconUrl: "/imgs/pins/temporary.png",
+							iconSize: [25, 34],
+							iconAnchor: [12, 34],
+							popupAnchor: [0, -30]
+						}),
+						permanent: L.icon({
+							iconUrl: "/imgs/pins/permanent.png",
 							iconSize: [25, 34],
 							iconAnchor: [12, 34],
 							popupAnchor: [0, -30]
@@ -529,6 +564,96 @@
 			}});
 		}
 		
+	//*-----ADDITIONAL BUSINESS LOCATION------------------------------------------------------
+		function addAdditionalBusinessLocation(data) {
+			var $out = buildAdditionalLocation(data);
+			$('#additionalLocations').append($out);
+		}
+		function buildAdditionalLocation(data) {
+			if (typeof data === 'undefined')
+				data = {
+					id: moment().valueOf(),
+					label: '',
+					address: '',
+					type: 'permanent',
+					visibility: 'both',
+					validTill: 0,
+					status: '',
+				};
+			data.validTill *= 1000;
+			if (data.validTill == 0) data.status = '<a onclick="purchaseAdditionalLocation(this)" class="btn">Activate</a>';
+			else if (data.validTill < moment().valueOf()) data.status = 'Expired <a onclick="purchaseAdditionalLocation(this,data)" class="btn">Renew</a>';
+			else data.status = moment(data.validTill).toNow(true) + ' remaining';
+			var out =
+				' \
+				<tr> \
+					<input type="hidden" name="additionalLocationId[]"  value="' +
+				data.id +
+				'"> \
+					<td><input name="additionalLocationLabel[]" type="text" placeholder="(ex: employee\'s name)" value="' +
+				data.label +
+				'"></td> \
+					<td style="width:33%"><input name="additionalLocationAddress[]" type="text" placeholder="street, city, state, zip, country" value="' +
+				data.address +
+				'"></td> \
+					<td><select name="additionalLocationType[]"> \
+						<option value="permanent" ' +
+				(data.type == 'permanent' ? 'selected' : '') +
+				'>Permanent (Business Location)</option> \
+						<option value="temporary" ' +
+				(data.type == 'temporary' ? 'selected' : '') +
+				'>Temporary (Mobile Storm Chaser)</option> \
+					</select></td> \
+					<td><select name="additionalLocationVisibility[]"> \
+						<option value="both" ' +
+				(data.visibility == 'both' ? 'selected' : '') +
+				'>Both Directories</option> \
+						<option value="public" ' +
+				(data.visibility == 'public' ? 'selected' : '') +
+				'>Public Directory</option> \
+						<option value="private" ' +
+				(data.visibility == 'private' ? 'selected' : '') +
+				'>Members Only Directory</option> \
+					</select></td> \
+					<td>' +
+				data.status +
+				'</td> \
+				</tr> \
+			';
+			return $(out).data('data', data);
+		}
+		function purchaseAdditionalLocation(that) {
+			window.$currentAdditionalLocationRow = $(that).closest('tr');
+			data = $currentAdditionalLocationRow.data('data');
+			$.getJSON('/forms/6.json', function(data2) {
+				var html =
+					'<div id="additionalLocationCheckoutForm" data-content="forms|6" class="mceNonEditable"><form class="styledForm" action="/cms/modules/forms/json/submitForm.php?id=6" method="post" data-type="transaction">' +
+					data2.html +
+					'</form></div>';
+				$.fancybox.open({
+					src: html,
+					type: 'html',
+					afterClose: function() {
+						$.post('/modules/vendors/json/checkAdditionalLocationStatus.json.php', { id: data.id }, function(data3) {
+							if (data3.message === 'good') $currentAdditionalLocationRow.replaceWith(buildAdditionalLocation(data3.data));
+							else if (data3.message === 'New Purchase') {
+								data3.data.label = $currentAdditionalLocationRow.find(':input[name="additionalLocationLabel[]"]').val();
+								data3.data.address = $currentAdditionalLocationRow.find(':input[name="additionalLocationAddress[]"]').val();
+								data3.data.type = $currentAdditionalLocationRow.find(':input[name="additionalLocationType[]"]').val();
+								data3.data.visibility = $currentAdditionalLocationRow.find(':input[name="additionalLocationVisibility[]"]').val();
+								$currentAdditionalLocationRow.replaceWith(buildAdditionalLocation(data3.data));
+							}
+						});
+					},
+					afterShow: function() {
+						cms.initForms();
+					},
+				});
+			});
+		}
+
+
+
 		
 		document.addEventListener("deviceready", function(){
 			Keyboard.shrinkView(true);
