@@ -164,9 +164,6 @@ article.box .rollup .content{
 	text-align:center;
 	padding-top:30px;
 }
-.vendorMapSearch br{
-	display:none;
-}
 .refineSearchBox{
 	display:none;
 	text-align:left;
@@ -184,6 +181,11 @@ article.box .rollup .content{
 	background-color: white;
 	max-height: none;
 }
+#mapVendorResultsList a.favorite{
+	position: static !important;
+    text-align: center;
+    margin-bottom: 30px;
+} 
 
 #map input[type="submit"]{
 	margin-top:5px !important;

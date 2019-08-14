@@ -65,6 +65,7 @@ P.asyncLoad([
 	['mapbox', 'https://api.mapbox.com/mapbox.js/v3.2.0/mapbox.js'],
 	['mapbox-cluster', 'https://pdrcontractors.com/js/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js'],
 	['template7', 'template7.min.js'],
+	['moment', 'https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js'],
 ]);
 
 var cms = {};
@@ -74,4 +75,5 @@ P.jquery.init(function() {
 	P.forms.init();
 	P.sweetalert.init();
 	P.template7.init();
+	P.moment.init();
 });

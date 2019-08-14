@@ -405,35 +405,40 @@
 					if(vendors.length>0){
 						var out ='<div class="bgBlue" style="padding:0.83em;"><div class="mid"><h2 style="display:inline">Directory List </h2>('+vendors.length+'&nbsp;RESULTS)</div><div style="float:right;margin-top: -46px;margin-right: 60px;white-space: nowrap;">Sort By: <select class="sortResultsBy"><option>Distance: Closest First</option><option>Established: Oldest First</option><option>Established: Newest First</option><option>Name: A-Z</option><option>Name: Z-A</option></select></div></div><div id="mapVendorResultsList" class="mid">';
 						
-							if (cms.Vendors.curSort == 'Distance')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.number_distance - b.number_distance;
-								});
-							if (cms.Vendors.curSort == 'Experience')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.text_year_established - b.text_year_established;
-								});
-							if (cms.Vendors.curSort == 'Business Name (A-Z)')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.text_Company_Name.localeCompare(b.text_Company_Name);
-								});
-							if (cms.Vendors.curSort == 'Business Name (Z-A)')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || b.text_Company_Name.localeCompare(a.text_Company_Name);
-								});
-							if (cms.Vendors.curSort == 'Contact Name (A-Z)')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.text_Contact_Name.localeCompare(b.text_Contact_Name);
-								});
-							if (cms.Vendors.curSort == 'Contact Name (Z-A)')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || b.text_Contact_Name.localeCompare(a.text_Contact_Name);
-								});
+						if (cms.Vendors.curSort == 'Distance')
+							vendors = vendors.sort(function(a, b) {
+								return b.bool_isFavorited - a.bool_isFavorited || a.number_distance - b.number_distance;
+							});
+						if (cms.Vendors.curSort == 'Experience')
+							vendors = vendors.sort(function(a, b) {
+								return b.bool_isFavorited - a.bool_isFavorited || a.text_year_established - b.text_year_established;
+							});
+						if (cms.Vendors.curSort == 'Business Name (A-Z)')
+							vendors = vendors.sort(function(a, b) {
+								return b.bool_isFavorited - a.bool_isFavorited || a.text_Company_Name.localeCompare(b.text_Company_Name);
+							});
+						if (cms.Vendors.curSort == 'Business Name (Z-A)')
+							vendors = vendors.sort(function(a, b) {
+								return b.bool_isFavorited - a.bool_isFavorited || b.text_Company_Name.localeCompare(a.text_Company_Name);
+							});
+						if (cms.Vendors.curSort == 'Contact Name (A-Z)')
+							vendors = vendors.sort(function(a, b) {
+								return b.bool_isFavorited - a.bool_isFavorited || a.text_Contact_Name.localeCompare(b.text_Contact_Name);
+							});
+						if (cms.Vendors.curSort == 'Contact Name (Z-A)')
+							vendors = vendors.sort(function(a, b) {
+								return b.bool_isFavorited - a.bool_isFavorited || b.text_Contact_Name.localeCompare(a.text_Contact_Name);
+							});
 
-						for(var i=0;i<vendors.length;i++){
-							vendors[i].number_distance = Math.round(vendors[i].number_distance*10)/10;
-							out+=template(vendors[i]);
+						for (var i = 0; i < vendors.length; i++) {
+							vendors[i].number_distance = Math.round(vendors[i].number_distance * 10) / 10;
+							vendors[i].text_Contact_Name_Reversed = vendors[i].text_Contact_Name
+								.split(',')
+								.reverse()
+								.join(' ');
+							out += template(vendors[i]);
 						}
+
 						out+='</div>';
 						$('#mapVendorResults').html(out).show();
 						
@@ -573,19 +578,19 @@
 					//format marker icon
 					window.pins = {
 						default: L.icon({
-							iconUrl: "/imgs/pins/default.png",
+							iconUrl: "imgs/pins/default.png",
 							iconSize: [25, 34],
 							iconAnchor: [12, 34],
 							popupAnchor: [0, -30]
 						}),
 						temporary: L.icon({
-							iconUrl: "/imgs/pins/temporary.png",
+							iconUrl: "imgs/pins/temporary.png",
 							iconSize: [25, 34],
 							iconAnchor: [12, 34],
 							popupAnchor: [0, -30]
 						}),
 						permanent: L.icon({
-							iconUrl: "/imgs/pins/permanent.png",
+							iconUrl: "imgs/pins/permanent.png",
 							iconSize: [25, 34],
 							iconAnchor: [12, 34],
 							popupAnchor: [0, -30]
