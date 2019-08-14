@@ -342,7 +342,7 @@
 							
 							//favorites
 							$('#mapVendorResults .favorite').click(function() {
-								$.post('/json/toggleFavorite.json.php', { vendor: $(this).attr('data-vendor') });
+								$.post('https://pdrcontractors.com/json/toggleFavorite.json.php', { vendor: $(this).attr('data-vendor') });
 								$(this).toggleClass('fas far');
 								var text = $(this).is('.far') ? 'Add to Favorites' : 'Favorited';
 								$(this)
