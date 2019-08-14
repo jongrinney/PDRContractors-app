@@ -654,11 +654,16 @@
 
 
 
-		
+		window.appVersion = 0;
 		document.addEventListener("deviceready", function(){
 			Keyboard.shrinkView(true);
 			cordova.getAppVersion.getVersionNumber().then(function (version) {
 				window.appVersion = version;
+				if (typeof localStorage['username'] === 'string') {
+					$('#loginForm input[name="username"]').val(localStorage['username']);
+					$('#loginForm input[name="password"]').val(localStorage['password']);
+					$('#loginForm').trigger('submit');
+				}
 			});
 		}, false);
 	</script>

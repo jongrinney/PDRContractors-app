@@ -67,8 +67,3 @@ $('#loginForm').submit(function(e) {
 	});
 	return false;
 });
-if (typeof localStorage['username'] === 'string') {
-	$('#loginForm input[name="username"]').val(localStorage['username']);
-	$('#loginForm input[name="password"]').val(localStorage['password']);
-	$('#loginForm').trigger('submit');
-}
