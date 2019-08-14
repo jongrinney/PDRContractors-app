@@ -532,6 +532,9 @@
 		
 		document.addEventListener("deviceready", function(){
 			Keyboard.shrinkView(true);
+			cordova.getAppVersion.getVersionNumber().then(function (version) {
+				window.appVersion = version;
+			});
 		}, false);
 	</script>
   </body>

@@ -58,7 +58,7 @@
         <preference name="StatusBarStyle" value="default" />
     </platform>
     <platform name="android">
-        <preference name="SplashMaintainAspectRatio" value="false" />
+        <preference name="SplashMaintainAspectRatio" value="true" />
         <preference name="SplashScreen" value="screen" />
         <preference name="AutoHideSplashScreen" value="true" />
         <preference name="SplashScreenDelay" value="2000" />
@@ -86,4 +86,5 @@
     <plugin name="cordova-plugin-splashscreen" spec="3.2.2" />
     <plugin name="cordova-plugin-geolocation" />
     <plugin name="cordova-plugin-keyboard" />
+    <plugin name="cordova-plugin-app-version" />
 </widget>

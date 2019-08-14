@@ -25,7 +25,7 @@ $('#loginForm').submit(function(e) {
 	e.preventDefault();
 	$('.menu-top .dropbtn').hide();
 	$('.menu-top a[class*="moduleButton_"]').hide();
-	$.post('https://pdrcontractors.com/cms/json/login.json.php', $(this).serialize(), function(data) {
+	$.post('https://pdrcontractors.com/cms/json/login.json.php', $(this).serialize() + '&version=' + appVersion, function(data) {
 		if (P.sweetalert.isLoaded) Swal.hideLoading();
 		if (data.message == 'good') {
 			//store credentials
