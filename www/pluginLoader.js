@@ -70,11 +70,6 @@ P.asyncLoad([
 var cms = {};
 
 P.jquery.init(function() {
-	$.ajaxSetup({
-		xhrFields: {
-			withCredentials: true,
-		},
-	});
 	P.login.init();
 	P.forms.init();
 	P.sweetalert.init();

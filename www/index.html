@@ -345,7 +345,10 @@
 				for(var i=0;i<vendors.length;i++)
 					for(var j in vendors[i].locations){
 						if(typeof vendors[i].latitude === 'undefined') continue;
-					var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {icon: pins[((vendors[i].locations[j].type == 'permanent')?'default':'temporary')],draggable: false});
+					var icon = 'default';
+					if(vendors[i].locations[j].type == 'permanent') icon = 'permanent';
+					else if(vendors[i].locations[j].type == 'temporary') icon = 'temporary';
+					var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {icon: pins[icon],draggable: false});
 					marker.data = vendors[i];
 					marker.bindPopup(
 						vendors[i].text_Company_Name+'<br> \
