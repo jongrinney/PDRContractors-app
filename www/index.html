@@ -228,9 +228,9 @@
 				});
 
 				//additional pins
-				$data.find('#VendorsEditVendorForm').children('.additionalPins').appendTo($('#additionalLocationsContainer'));
+				$data.find('#VendorsEditVendorForm').find('.additionalPinsContainer').appendTo($('#additionalLocationsContainer'));
 				$('#additionalLocationsContainer').find('.cell').first().remove();
-				
+
 				//update profile
 				$data.find('#VendorsEditVendorForm').children().not('h1, .currentLocation, .businessOptions').appendTo($('#profileContainer'));
 				$('#profileContainer .button').remove();
