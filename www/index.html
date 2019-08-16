@@ -218,33 +218,8 @@
 				$data.find('#VendorsEditVendorForm').children('.businessOptions').appendTo($('#businessOptionsContainer'));
 				$('#businessOptionsContainer').find('.cell').first().remove();
 				$('#businessOptionsContainer').find('fieldset').attr('data-type','toggle').unwrap().wrapInner('<div></div>');
-				$checkboxes = $('#businessOptionsContainer fieldset');
-				$('<div></div>')
-				.append($checkboxes.eq(0))
-				.append($checkboxes.eq(3))
-				.append($checkboxes.eq(6))
-				.append($checkboxes.eq(9))
-				.append($checkboxes.eq(12))
-				.append($checkboxes.eq(15))
-				.append($checkboxes.eq(18))
-				//-----------
-				.append($checkboxes.eq(1))
-				.append($checkboxes.eq(4))
-				.append($checkboxes.eq(7))
-				.append($checkboxes.eq(10))
-				.append($checkboxes.eq(13))
-				.append($checkboxes.eq(16))
-				.append($checkboxes.eq(19))
-				//----------
-				.append($checkboxes.eq(2))
-				.append($checkboxes.eq(5))
-				.append($checkboxes.eq(8))
-				.append($checkboxes.eq(11))
-				.append($checkboxes.eq(14))
-				.append($checkboxes.eq(17))
-				.append($checkboxes.eq(20))
-				.appendTo($('#businessOptionsContainer').empty());
-
+				transposeOptions($('#businessOptionsContainer'), 'fieldset')
+		
 				$('#businessOptionsContainer').find('input[type="checkbox"]').wrap('<label></label>').attr('data-values','No|Yes').attr('data-position','right').change(function(){
 					saveData();
 				});
@@ -262,6 +237,8 @@
 				
 				//map
 				$data.find('.vendorMap').appendTo($('#map'));
+				transposeOptions($('.refineSearchBox'), 'fieldset')
+		
 				//$data.find('#vendorsMap').appendTo($('#map'));
 				//$data.find('.vendorMapSearch').appendTo($('#map'));
 				
@@ -479,6 +456,8 @@
 						$('#mapVendorResults .shortBio').click(function(){
 							$(this).hide().next().show();
 						});
+
+						doVendorResultsPagination();
 					}
 					else
 						$('#mapVendorResults').html('').hide();
@@ -556,6 +535,47 @@
 				}
 			}*/
 		}};
+
+		function doVendorResultsPagination() {
+			//build pagination nav
+			var numVendors = $('#mapVendorResultsList>div:visible').length;
+			var out = '<a class="prev">&lt;</a>';
+			for (var i = 0; i * 10 < numVendors; i++) out += '<a' + (i == 0 ? ' class="active"' : '') + '>' + (i + 1) + '</a>';
+			out += '<a class="prev">&gt;</a>';
+			$('#mapVendorResults nav').html(out);
+			if (typeof isLoggedIn !== 'undefined' && isLoggedIn == 1)
+				$('.sortResultsBy>option')
+					.eq(0)
+					.after('<option>Experience</option>');
+
+			//pagination
+			$('#mapVendorResultsList').data('page', 0); //.css('width',Math.ceil(vendors.length/10)*$('#mapVendorResultsList').width());
+			$('#mapVendorResults nav a').click(function() {
+				var val = $(this)
+					.text()
+					.trim();
+				var page = $('#mapVendorResultsList').data('page');
+				if (val == '&gt;' || val == '>') page++;
+				else if (val == '&lt;' || val == '<') page--;
+				else page = parseInt(val) - 1;
+
+				if (page < 0) page += Math.ceil(numVendors / 10);
+				page = page % Math.ceil(numVendors / 10);
+
+				$('#mapVendorResultsList').data('page', page);
+				$('#mapVendorResultsList').scrollLeft(page * $('#mapVendorResultsList').width());
+				$('#mapVendorResults nav a')
+					.removeClass('active')
+					.filter(':contains(' + (page + 1) + ')')
+					.addClass('active');
+				window.scrollTo({
+					top: $('#mapVendorResultsList').offset().top - 100,
+					left: 0,
+					behavior: 'smooth',
+				});
+			});
+		}
+
 		function initMap(){
 			P.mapbox.init(function(){
 				P['mapbox-cluster'].init(function(){
@@ -786,7 +806,34 @@
 			});
 		}
 
-
+		function transposeOptions($container, selector){
+			$checkboxes = $container.find(selector);
+			$('<div></div>')
+			.append($checkboxes.eq(0))
+			.append($checkboxes.eq(3))
+			.append($checkboxes.eq(6))
+			.append($checkboxes.eq(9))
+			.append($checkboxes.eq(12))
+			.append($checkboxes.eq(15))
+			.append($checkboxes.eq(18))
+			//-----------
+			.append($checkboxes.eq(1))
+			.append($checkboxes.eq(4))
+			.append($checkboxes.eq(7))
+			.append($checkboxes.eq(10))
+			.append($checkboxes.eq(13))
+			.append($checkboxes.eq(16))
+			.append($checkboxes.eq(19))
+			//----------
+			.append($checkboxes.eq(2))
+			.append($checkboxes.eq(5))
+			.append($checkboxes.eq(8))
+			.append($checkboxes.eq(11))
+			.append($checkboxes.eq(14))
+			.append($checkboxes.eq(17))
+			.append($checkboxes.eq(20))
+			.appendTo($container.empty());
+		}
 
 		window.appVersion = 0;
 		document.addEventListener("deviceready", function(){
