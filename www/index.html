@@ -294,249 +294,250 @@
 			});
 		}
 		
-		var cms={Vendors:{
-			markers:[],
-			populateMatchingVendors: (vendors, markerOnly)=>{
-				cms.Vendors.tempVendors = vendors;
-				cms.Vendors.tempMarkerOnly = markerOnly;
+		P.base.ready(function(){
+			window.cms.Vendors={
+				markers:[],
+				populateMatchingVendors: (vendors, markerOnly)=>{
+					cms.Vendors.tempVendors = vendors;
+					cms.Vendors.tempMarkerOnly = markerOnly;
 
-				//remove existing pins
-				markersLayer.clearLayers();
-				while (markers.length > 0) {
-					var marker = markers.pop().getElement();
-					if (typeof marker !== 'undefined' && marker !== null) marker.remove();
+					//remove existing pins
+					markersLayer.clearLayers();
+					while (markers.length > 0) {
+						var marker = markers.pop().getElement();
+						if (typeof marker !== 'undefined' && marker !== null) marker.remove();
+					}
+					if (typeof markerOnly == 'undefined' || markerOnly == false)
+						if (vendors.length > 0) cms.Vendors.buildVendorList(vendors);
+						else if (window.location.pathname == '/favorite-contractors') {
+							out =
+								'<center><h3>No results to display.</h3> Either you filters are set to high or you have not favorited any vendors. Please either adjust your filters or return to the <a href="/">home page</a> and click the green star next to a vendor to save it to your favorites list.</center>';
+							$('#mapVendorResults')
+								.html(out)
+								.show();
+						} else
+							$('#mapVendorResults')
+								.html('')
+								.hide();
+
+					//add marker
+					for (var i = 0; i < vendors.length; i++) {
+						for (var j in vendors[i].locations) {
+							if (typeof vendors[i].locations[j].latitude === 'undefined') continue;
+							
+							var icon = (typeof pins[vendors[i].locations[j].type] !== 'undefined') ? pins[vendors[i].locations[j].type] : pins['default'];
+							var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {
+								icon: icon,
+								draggable: false,
+							});
+							marker.data = vendors[i];
+							marker.bindPopup(
+								vendors[i].text_Company_Name +
+									'<br> \
+								<a href="' +
+									format('tel', vendors[i].text_Phone_Number) +
+									'">' +
+									format('phone', vendors[i].text_Phone_Number) +
+									'</a><br> \
+								<a href="' +
+									format('url', vendors[i].text_Url) +
+									'" target="_blank" rel="noopener nofollow">' +
+									format('link', vendors[i].text_Url) +
+									'</a><br> \
+								<a onclick=" \
+									var page = Math.ceil($(\'#vendor' +
+									vendors[i].numId +
+									"').position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page'); \
+									$('#mapVendorResults nav a:contains('+page+')').trigger('click'); \
+									window.scrollTo({top: $('#vendor" +
+									vendors[i].numId +
+									"').offset().top-100,left: 0,behavior: 'smooth'}); \
+									\">Click for more info ...</a> \
+							"
+							);
+							//marker.addTo(map);
+							markersLayer.addLayer(marker);
+							marker
+								.on('mousedown', function() {
+									this.timeoutId = setTimeout(this.dblclick, 1000);
+								})
+								.on('mouseup mouseleave', function() {
+									clearTimeout(this.timeoutId);
+								});
+
+							marker.on('click', function(e) {
+								this.openPopup();
+							});
+							/*marker.on('mouseover', function (e) {
+								this.openPopup();
+							});*/
+							marker.on('dblclick', function(e) {
+								var data = this.data;
+								if ($('#vendor' + data.numId).length == 0) {
+									populateMatchingVendors(cms.Vendors.tempVendors, false);
+									setTimeout(function() {
+										var page = Math.ceil($('#vendor' + vendors[i].numId).position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page');
+										$('#mapVendorResults nav a:contains(' + page + ')').trigger('click');
+
+										window.scrollTo({
+											top: $('#vendor' + data.numId).offset().top - 100,
+											left: 0,
+											behavior: 'smooth',
+										});
+									}, 500);
+								} else var page = Math.ceil($('#vendor' + data.numId).position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page');
+								$('#mapVendorResults nav a:contains(' + page + ')').trigger('click');
+
+								window.scrollTo({
+									top: $('#vendor' + data.numId).offset().top - 100,
+									left: 0,
+									behavior: 'smooth',
+								});
+							});
+
+							markers.push(marker);
+						}
+					}
+				},
+				buildVendorList: (vendors) => {
+					T.build('event','https://pdrcontractors.com/data/templates/partial.vendorListAdmin.htm',false,function(template){
+						if(vendors.length>0){
+							var out ='<div class="bgBlue" style="padding:0.83em;"><div class="mid"><h2 style="display:inline">Directory List </h2>('+vendors.length+'&nbsp;RESULTS)</div><div style="float:right;margin-top: -46px;margin-right: 60px;white-space: nowrap;">Sort By: <select class="sortResultsBy"><option>Distance: Closest First</option><option>Established: Oldest First</option><option>Established: Newest First</option><option>Name: A-Z</option><option>Name: Z-A</option></select></div></div><div id="mapVendorResultsList" class="mid">';
+							
+							if (cms.Vendors.curSort == 'Distance')
+								vendors = vendors.sort(function(a, b) {
+									return b.bool_isFavorited - a.bool_isFavorited || a.number_distance - b.number_distance;
+								});
+							if (cms.Vendors.curSort == 'Experience')
+								vendors = vendors.sort(function(a, b) {
+									return b.bool_isFavorited - a.bool_isFavorited || a.text_year_established - b.text_year_established;
+								});
+							if (cms.Vendors.curSort == 'Business Name (A-Z)')
+								vendors = vendors.sort(function(a, b) {
+									return b.bool_isFavorited - a.bool_isFavorited || a.text_Company_Name.localeCompare(b.text_Company_Name);
+								});
+							if (cms.Vendors.curSort == 'Business Name (Z-A)')
+								vendors = vendors.sort(function(a, b) {
+									return b.bool_isFavorited - a.bool_isFavorited || b.text_Company_Name.localeCompare(a.text_Company_Name);
+								});
+							if (cms.Vendors.curSort == 'Contact Name (A-Z)')
+								vendors = vendors.sort(function(a, b) {
+									return b.bool_isFavorited - a.bool_isFavorited || a.text_Contact_Name.localeCompare(b.text_Contact_Name);
+								});
+							if (cms.Vendors.curSort == 'Contact Name (Z-A)')
+								vendors = vendors.sort(function(a, b) {
+									return b.bool_isFavorited - a.bool_isFavorited || b.text_Contact_Name.localeCompare(a.text_Contact_Name);
+								});
+
+							for (var i = 0; i < vendors.length; i++) {
+								vendors[i].number_distance = Math.round(vendors[i].number_distance * 10) / 10;
+								vendors[i].text_Contact_Name_Reversed = vendors[i].text_Contact_Name
+									.split(',')
+									.reverse()
+									.join(' ');
+								out += template(vendors[i]);
+							}
+
+							out+='</div><nav></nav>';
+							$('#mapVendorResults').html(out).show();
+							
+							//favorites
+							$('#mapVendorResults .favorite').click(function() {
+								$.post('https://pdrcontractors.com/json/toggleFavorite.json.php', { vendor: $(this).attr('data-vendor') });
+								$(this).toggleClass('fas far');
+								var text = $(this).is('.far') ? 'Add to Favorites' : 'Favorited';
+								$(this)
+									.children('span')
+									.text(text);
+							});
+
+							$('#Vendors .sortResultsBy').val(cms.Vendors.curSort).change(function(){
+								cms.Vendors.curSort = $(this).val();
+								cms.Vendors.populateMatchingVendors(cms.Vendors.tempVendors, cms.Vendors.tempMarkerOnly);
+							});
+							$('#mapVendorResults .shortBio').click(function(){
+								$(this).hide().next().show();
+							});
+
+							doVendorResultsPagination();
+						}
+						else
+							$('#mapVendorResults').html('').hide();
+					});
 				}
-				if (typeof markerOnly == 'undefined' || markerOnly == false)
-					if (vendors.length > 0) cms.Vendors.buildVendorList(vendors);
-					else if (window.location.pathname == '/favorite-contractors') {
-						out =
-							'<center><h3>No results to display.</h3> Either you filters are set to high or you have not favorited any vendors. Please either adjust your filters or return to the <a href="/">home page</a> and click the green star next to a vendor to save it to your favorites list.</center>';
-						$('#mapVendorResults')
-							.html(out)
-							.show();
-					} else
-						$('#mapVendorResults')
-							.html('')
-							.hide();
-
-				//add marker
-				for (var i = 0; i < vendors.length; i++) {
-					for (var j in vendors[i].locations) {
-						if (typeof vendors[i].locations[j].latitude === 'undefined') continue;
+	/*
+				populateMatchingVendors: (vendors,markerOnly) => {
+					cms.Vendors.tempVendors = vendors;
+					cms.Vendors.tempMarkerOnly = markerOnly;
+					if(typeof markerOnly == 'undefined' || markerOnly == false)
 						
-						var icon = (typeof pins[vendors[i].locations[j].type] !== 'undefined') ? pins[vendors[i].locations[j].type] : pins['default'];
-						var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {
-							icon: icon,
-							draggable: false,
-						});
+					
+					//remove existing pins
+					markersLayer.clearLayers();
+					while(markers.length>0){
+						var marker = markers.pop().getElement();
+						if(typeof marker !== 'undefined' && marker !== null)
+							marker.remove();
+					}
+		
+					//add marker
+					for(var i=0;i<vendors.length;i++)
+						for(var j in vendors[i].locations){
+							if(typeof vendors[i].latitude === 'undefined') continue;
+						var icon = 'default';
+						if(vendors[i].locations[j].type == 'permanent') icon = 'permanent';
+						else if(vendors[i].locations[j].type == 'temporary') icon = 'temporary';
+						var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {icon: pins[icon],draggable: false});
 						marker.data = vendors[i];
 						marker.bindPopup(
-							vendors[i].text_Company_Name +
-								'<br> \
-							<a href="' +
-								format('tel', vendors[i].text_Phone_Number) +
-								'">' +
-								format('phone', vendors[i].text_Phone_Number) +
-								'</a><br> \
-							<a href="' +
-								format('url', vendors[i].text_Url) +
-								'" target="_blank" rel="noopener nofollow">' +
-								format('link', vendors[i].text_Url) +
-								'</a><br> \
-							<a onclick=" \
-								var page = Math.ceil($(\'#vendor' +
-								vendors[i].numId +
-								"').position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page'); \
-								$('#mapVendorResults nav a:contains('+page+')').trigger('click'); \
-								window.scrollTo({top: $('#vendor" +
-								vendors[i].numId +
-								"').offset().top-100,left: 0,behavior: 'smooth'}); \
-								\">Click for more info ...</a> \
-						"
-						);
+							vendors[i].text_Company_Name+'<br> \
+							<a href="'+format('tel',vendors[i].text_Phone_Number)+'">'+format('phone',vendors[i].text_Phone_Number)+'</a><br> \
+							<a href="'+format('url',vendors[i].text_Url)+'" target="_blank" rel="noopener nofollow">'+format('link',vendors[i].text_Url)+'</a><br> \
+					<a onclick="window.scrollTo({top: $(\'#vendor'+vendors[i].numId+'\').offset().top-100,left: 0,behavior: \'smooth\'});">Click for more info ...</a>');
 						//marker.addTo(map);
 						markersLayer.addLayer(marker);
-						marker
-							.on('mousedown', function() {
-								this.timeoutId = setTimeout(this.dblclick, 1000);
-							})
-							.on('mouseup mouseleave', function() {
-								clearTimeout(this.timeoutId);
-							});
-
-						marker.on('click', function(e) {
+						marker.on('mousedown', function() {
+							this.timeoutId = setTimeout(this.dblclick, 1000);
+						}).on('mouseup mouseleave', function() {
+							clearTimeout(this.timeoutId);
+						});
+						
+						
+						marker.on('click', function (e) {
 							this.openPopup();
 						});
-						/*marker.on('mouseover', function (e) {
-							this.openPopup();
-						});*/
-						marker.on('dblclick', function(e) {
-							var data = this.data;
-							if ($('#vendor' + data.numId).length == 0) {
-								populateMatchingVendors(cms.Vendors.tempVendors, false);
-								setTimeout(function() {
-									var page = Math.ceil($('#vendor' + vendors[i].numId).position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page');
-									$('#mapVendorResults nav a:contains(' + page + ')').trigger('click');
-
-									window.scrollTo({
-										top: $('#vendor' + data.numId).offset().top - 100,
-										left: 0,
-										behavior: 'smooth',
-									});
-								}, 500);
-							} else var page = Math.ceil($('#vendor' + data.numId).position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page');
-							$('#mapVendorResults nav a:contains(' + page + ')').trigger('click');
-
-							window.scrollTo({
-								top: $('#vendor' + data.numId).offset().top - 100,
-								left: 0,
-								behavior: 'smooth',
-							});
-						});
-
-						markers.push(marker);
-					}
-				}
-			},
-			buildVendorList: (vendors) => {
-				T.build('event','https://pdrcontractors.com/data/templates/partial.vendorListAdmin.htm',false,function(template){
-					if(vendors.length>0){
-						var out ='<div class="bgBlue" style="padding:0.83em;"><div class="mid"><h2 style="display:inline">Directory List </h2>('+vendors.length+'&nbsp;RESULTS)</div><div style="float:right;margin-top: -46px;margin-right: 60px;white-space: nowrap;">Sort By: <select class="sortResultsBy"><option>Distance: Closest First</option><option>Established: Oldest First</option><option>Established: Newest First</option><option>Name: A-Z</option><option>Name: Z-A</option></select></div></div><div id="mapVendorResultsList" class="mid">';
-						
-						if (cms.Vendors.curSort == 'Distance')
-							vendors = vendors.sort(function(a, b) {
-								return b.bool_isFavorited - a.bool_isFavorited || a.number_distance - b.number_distance;
-							});
-						if (cms.Vendors.curSort == 'Experience')
-							vendors = vendors.sort(function(a, b) {
-								return b.bool_isFavorited - a.bool_isFavorited || a.text_year_established - b.text_year_established;
-							});
-						if (cms.Vendors.curSort == 'Business Name (A-Z)')
-							vendors = vendors.sort(function(a, b) {
-								return b.bool_isFavorited - a.bool_isFavorited || a.text_Company_Name.localeCompare(b.text_Company_Name);
-							});
-						if (cms.Vendors.curSort == 'Business Name (Z-A)')
-							vendors = vendors.sort(function(a, b) {
-								return b.bool_isFavorited - a.bool_isFavorited || b.text_Company_Name.localeCompare(a.text_Company_Name);
-							});
-						if (cms.Vendors.curSort == 'Contact Name (A-Z)')
-							vendors = vendors.sort(function(a, b) {
-								return b.bool_isFavorited - a.bool_isFavorited || a.text_Contact_Name.localeCompare(b.text_Contact_Name);
-							});
-						if (cms.Vendors.curSort == 'Contact Name (Z-A)')
-							vendors = vendors.sort(function(a, b) {
-								return b.bool_isFavorited - a.bool_isFavorited || b.text_Contact_Name.localeCompare(a.text_Contact_Name);
-							});
-
-						for (var i = 0; i < vendors.length; i++) {
-							vendors[i].number_distance = Math.round(vendors[i].number_distance * 10) / 10;
-							vendors[i].text_Contact_Name_Reversed = vendors[i].text_Contact_Name
-								.split(',')
-								.reverse()
-								.join(' ');
-							out += template(vendors[i]);
-						}
-
-						out+='</div><nav></nav>';
-						$('#mapVendorResults').html(out).show();
-						
-						//favorites
-						$('#mapVendorResults .favorite').click(function() {
-							$.post('https://pdrcontractors.com/json/toggleFavorite.json.php', { vendor: $(this).attr('data-vendor') });
-							$(this).toggleClass('fas far');
-							var text = $(this).is('.far') ? 'Add to Favorites' : 'Favorited';
-							$(this)
-								.children('span')
-								.text(text);
-						});
-
-						$('#Vendors .sortResultsBy').val(cms.Vendors.curSort).change(function(){
-							cms.Vendors.curSort = $(this).val();
-							cms.Vendors.populateMatchingVendors(cms.Vendors.tempVendors, cms.Vendors.tempMarkerOnly);
-						});
-						$('#mapVendorResults .shortBio').click(function(){
-							$(this).hide().next().show();
-						});
-
-						doVendorResultsPagination();
-					}
-					else
-						$('#mapVendorResults').html('').hide();
-				});
-			}
-/*
-			populateMatchingVendors: (vendors,markerOnly) => {
-				cms.Vendors.tempVendors = vendors;
-				cms.Vendors.tempMarkerOnly = markerOnly;
-				if(typeof markerOnly == 'undefined' || markerOnly == false)
-					
 				
-				//remove existing pins
-				markersLayer.clearLayers();
-				while(markers.length>0){
-					var marker = markers.pop().getElement();
-					if(typeof marker !== 'undefined' && marker !== null)
-						marker.remove();
-				}
-	
-				//add marker
-				for(var i=0;i<vendors.length;i++)
-					for(var j in vendors[i].locations){
-						if(typeof vendors[i].latitude === 'undefined') continue;
-					var icon = 'default';
-					if(vendors[i].locations[j].type == 'permanent') icon = 'permanent';
-					else if(vendors[i].locations[j].type == 'temporary') icon = 'temporary';
-					var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {icon: pins[icon],draggable: false});
-					marker.data = vendors[i];
-					marker.bindPopup(
-						vendors[i].text_Company_Name+'<br> \
-						<a href="'+format('tel',vendors[i].text_Phone_Number)+'">'+format('phone',vendors[i].text_Phone_Number)+'</a><br> \
-						<a href="'+format('url',vendors[i].text_Url)+'" target="_blank" rel="noopener nofollow">'+format('link',vendors[i].text_Url)+'</a><br> \
-				<a onclick="window.scrollTo({top: $(\'#vendor'+vendors[i].numId+'\').offset().top-100,left: 0,behavior: \'smooth\'});">Click for more info ...</a>');
-					//marker.addTo(map);
-					markersLayer.addLayer(marker);
-					marker.on('mousedown', function() {
-						this.timeoutId = setTimeout(this.dblclick, 1000);
-					}).on('mouseup mouseleave', function() {
-						clearTimeout(this.timeoutId);
-					});
-					
-					
-					marker.on('click', function (e) {
-						this.openPopup();
-					});
-			
-					marker.on('dblclick', function (e) {
-						var data = this.data;
-						if($('#vendor'+data.numId).length == 0){
-							populateMatchingVendors(Vendors.tempVendors,false);
-							setTimeout(function(){
+						marker.on('dblclick', function (e) {
+							var data = this.data;
+							if($('#vendor'+data.numId).length == 0){
+								populateMatchingVendors(Vendors.tempVendors,false);
+								setTimeout(function(){
+									window.scrollTo({
+										top: $('#vendor'+data.numId).offset().top-100,
+										left: 0,
+										behavior: 'smooth'
+									});
+								},500);
+							}
+							else
 								window.scrollTo({
 									top: $('#vendor'+data.numId).offset().top-100,
 									left: 0,
 									behavior: 'smooth'
 								});
-							},500);
-						}
-						else
-							window.scrollTo({
-								top: $('#vendor'+data.numId).offset().top-100,
-								left: 0,
-								behavior: 'smooth'
-							});
-					});
-						
-					markers.push(marker);
-				
-					//var marker = L.marker(new L.LatLng(vendors[i].number_Latitude, vendors[i].number_Longitude), {icon: cms.Vendors.icon,draggable: false});
-					//marker.bindPopup(vendors[i].text_Company_Name);
-					//marker.addTo(map);
-					//cms.Vendors.markers.push(marker);
+						});
+							
+						markers.push(marker);
 					
-				}
-			}*/
-		}};
-
+						//var marker = L.marker(new L.LatLng(vendors[i].number_Latitude, vendors[i].number_Longitude), {icon: cms.Vendors.icon,draggable: false});
+						//marker.bindPopup(vendors[i].text_Company_Name);
+						//marker.addTo(map);
+						//cms.Vendors.markers.push(marker);
+						
+					}
+				}*/
+			}};
+		});
 		function doVendorResultsPagination() {
 			//build pagination nav
 			var numVendors = $('#mapVendorResultsList>div:visible').length;
@@ -801,7 +802,7 @@
 						});
 					},
 					afterShow: function() {
-						cms.initForms();
+						initFormElements();
 					},
 				});
 			});

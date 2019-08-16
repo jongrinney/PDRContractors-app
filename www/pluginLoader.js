@@ -67,6 +67,7 @@ P.asyncLoad([
 	['template7', 'js/template7.min.js'],
 	['moment', 'js/moment.js'],
 	['fancybox', 'https://pdrcontractors.com/cms/plugins/fancybox-master/dist/jquery.fancybox.min.js'],
+	['base', 'https://pdrcontractors.com/cms/js/base.js'],
 ]);
 
 var cms = {};
@@ -78,4 +79,5 @@ P.jquery.init(function() {
 	P.template7.init();
 	P.moment.init();
 	P.fancybox.init();
+	P.base.init();
 });
