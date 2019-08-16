@@ -195,6 +195,9 @@ article.box .rollup .content{
 	display:block;
 	padding-top:20px;
 }
+#mapVendorResultsList{
+	max-height: 3805px !important;
+}
 #mapVendorResultsList>div img{
 	float:none !important;
 	margin: auto !important;
