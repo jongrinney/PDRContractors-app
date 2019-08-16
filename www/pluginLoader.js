@@ -66,6 +66,7 @@ P.asyncLoad([
 	['mapbox-cluster', 'https://pdrcontractors.com/js/Leaflet.markercluster-1.4.1/dist/leaflet.markercluster-src.js'],
 	['template7', 'js/template7.min.js'],
 	['moment', 'js/moment.js'],
+	['fancybox', 'https://pdrcontractors.com/cms/plugins/fancybox-master/dist/jquery.fancybox.min.js'],
 ]);
 
 var cms = {};
@@ -76,4 +77,5 @@ P.jquery.init(function() {
 	P.sweetalert.init();
 	P.template7.init();
 	P.moment.init();
+	P.fancybox.init();
 });
