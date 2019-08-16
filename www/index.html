@@ -465,78 +465,7 @@
 							$('#mapVendorResults').html('').hide();
 					});
 				}
-	/*
-				populateMatchingVendors: (vendors,markerOnly) => {
-					cms.Vendors.tempVendors = vendors;
-					cms.Vendors.tempMarkerOnly = markerOnly;
-					if(typeof markerOnly == 'undefined' || markerOnly == false)
-						
-					
-					//remove existing pins
-					markersLayer.clearLayers();
-					while(markers.length>0){
-						var marker = markers.pop().getElement();
-						if(typeof marker !== 'undefined' && marker !== null)
-							marker.remove();
-					}
-		
-					//add marker
-					for(var i=0;i<vendors.length;i++)
-						for(var j in vendors[i].locations){
-							if(typeof vendors[i].latitude === 'undefined') continue;
-						var icon = 'default';
-						if(vendors[i].locations[j].type == 'permanent') icon = 'permanent';
-						else if(vendors[i].locations[j].type == 'temporary') icon = 'temporary';
-						var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {icon: pins[icon],draggable: false});
-						marker.data = vendors[i];
-						marker.bindPopup(
-							vendors[i].text_Company_Name+'<br> \
-							<a href="'+format('tel',vendors[i].text_Phone_Number)+'">'+format('phone',vendors[i].text_Phone_Number)+'</a><br> \
-							<a href="'+format('url',vendors[i].text_Url)+'" target="_blank" rel="noopener nofollow">'+format('link',vendors[i].text_Url)+'</a><br> \
-					<a onclick="window.scrollTo({top: $(\'#vendor'+vendors[i].numId+'\').offset().top-100,left: 0,behavior: \'smooth\'});">Click for more info ...</a>');
-						//marker.addTo(map);
-						markersLayer.addLayer(marker);
-						marker.on('mousedown', function() {
-							this.timeoutId = setTimeout(this.dblclick, 1000);
-						}).on('mouseup mouseleave', function() {
-							clearTimeout(this.timeoutId);
-						});
-						
-						
-						marker.on('click', function (e) {
-							this.openPopup();
-						});
-				
-						marker.on('dblclick', function (e) {
-							var data = this.data;
-							if($('#vendor'+data.numId).length == 0){
-								populateMatchingVendors(Vendors.tempVendors,false);
-								setTimeout(function(){
-									window.scrollTo({
-										top: $('#vendor'+data.numId).offset().top-100,
-										left: 0,
-										behavior: 'smooth'
-									});
-								},500);
-							}
-							else
-								window.scrollTo({
-									top: $('#vendor'+data.numId).offset().top-100,
-									left: 0,
-									behavior: 'smooth'
-								});
-						});
-							
-						markers.push(marker);
-					
-						//var marker = L.marker(new L.LatLng(vendors[i].number_Latitude, vendors[i].number_Longitude), {icon: cms.Vendors.icon,draggable: false});
-						//marker.bindPopup(vendors[i].text_Company_Name);
-						//marker.addTo(map);
-						//cms.Vendors.markers.push(marker);
-						
-					}
-				}*/
-			}};
+			}
 		});
 		function doVendorResultsPagination() {
 			//build pagination nav
