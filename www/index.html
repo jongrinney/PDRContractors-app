@@ -65,6 +65,15 @@
 						</div>
 					</div>
 					<div class="rollup">
+						<a>Additional  Locations</a>
+						<div class="content">
+							<p>
+								Available for purchase to increase your company's presence in the directory.
+							</p>
+							<div id="additionalLocationsContainer"></div>
+						</div>
+					</div>
+					<div class="rollup">
 						<a>Update Profile</a>
 						<div class="content">
 							<div id="profileContainer"></div>
@@ -242,6 +251,11 @@
 				$('#businessOptionsContainer label:not([style])').click(function(){
 					$(this).prev().trigger('click');
 				});
+
+				//additional pins
+				$data.find('#VendorsEditVendorForm').children('.additionalPins').appendTo($('#additionalLocationsContainer'));
+				$('#additionalLocationsContainer').find('.cell').first().remove();
+				
 				//update profile
 				$data.find('#VendorsEditVendorForm').children().not('h1, .currentLocation, .businessOptions').appendTo($('#profileContainer'));
 				$('#profileContainer .button').remove();
@@ -274,7 +288,7 @@
 			if(P.sweetalert.isLoaded) swal.showLoading();
 			$.get('https://pdrcontractors.com/data/modules/vendors/json/getData.json.php',{id: window.vendorId},function(data){
 				newGrid=true;
-			
+				$('#Vendors .editForm #additionalLocations').empty();
 				if(P.sweetalert.isLoaded) swal.hideLoading();
 				if(data.message == 'good'){
 					for(var i in data.data){
@@ -294,6 +308,10 @@
 					if(data.data.status != 'Published')
 						$('#Vendors .revertButton, #Vendors .vendorsButtonPublish, #Vendors .vendorsButtonPublishWithoutEmail').css('display','flex');
 					$('#Vendors .editForm').show();
+
+					if(data.data.additional_locations)
+						for(var i=0;i<data.data.additional_locations.length; i++)
+							addAdditionalBusinessLocation(data.data.additional_locations[i]);
 				}
 			});
 		}
@@ -592,7 +610,7 @@
 							popupAnchor: [0, -30]
 						}),
 						traveling: L.icon({
-							iconUrl: "imgs/pins/temporary.png",
+							iconUrl: "imgs/pins/traveling.png",
 							iconSize: [25, 34],
 							iconAnchor: [12, 34],
 							popupAnchor: [0, -30]
