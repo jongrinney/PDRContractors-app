@@ -60,7 +60,7 @@ section:not(.active),
 	max-width:300px;
 	box-shadow: var(--shadow-on-gray);
 }
-nav{
+main>nav{
 	position:fixed;
 	top:30px;
 	left:15px;
@@ -74,7 +74,7 @@ nav{
 	box-shadow: 0 15px 20px rgba(0,0,0,.2);
 	z-index:9999;
 }
-nav:before{
+main>nav:before{
 	content: "";
 	background-image: url(logo.png);
 	position:absolute;
@@ -84,12 +84,12 @@ nav:before{
 	height: 40px;
 	background-size:contain;
 }
-nav a{
+main>nav a{
 	padding:20px;
 	color: #5B5D5E;
 	font-weight: bold;
 }
-nav a.active{
+main>nav a.active{
 	color: var(--blue);
 }
 
