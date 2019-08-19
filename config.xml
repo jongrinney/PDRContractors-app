@@ -10,6 +10,7 @@
     <access origin="http://*.*.mapbox.com/*" />
     <access origin="https://*.mapbox.com/*" />
     <access origin="https://*.*.mapbox.com/*" />
+    <access origin="https://cdnjs.cloudflare.com/*" />
     <access launch-external="true" origin="mailto:*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="http://*/*" />
