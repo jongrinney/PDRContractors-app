@@ -61,6 +61,7 @@ cms.initForms = function() {
 		});
 	});
 };
+
 cms.attachFormHandlers = function(processor) {
 	$('form.styledForm:not(.live):not([action])')
 		.attr('action', 'https://pdrcontractors.com/cms/modules/forms/json/submitForm.php')
@@ -231,3 +232,8 @@ cms.attachFormHandlers = function(processor) {
 
 	if (typeof initializeForms !== 'undefined') initializeForms();
 };
+
+function format_money(amount) {
+	return '$' + parseFloat(amount).toLocaleString('us', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+	//TODO internationalization
+}
