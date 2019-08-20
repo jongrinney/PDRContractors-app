@@ -1,5 +1,5 @@
 {
-    "cSpell.words": [
+	"cSpell.words": [
         "Favorited",
         "Swal",
         "callout",
@@ -10,11 +10,15 @@
         "fancybox",
         "formdata",
         "imgs",
+        "lazyload",
         "mapbox",
         "moveend",
         "nofollow",
+        "promocode",
+        "regexes",
         "rollups",
         "spiderfy",
+        "sugarjs",
         "sweetalert"
     ]
 }
