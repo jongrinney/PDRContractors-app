@@ -68,9 +68,6 @@
 					<div class="rollup">
 						<a>Additional  Locations</a>
 						<div class="content">
-							<p>
-								Available for purchase to increase your company's presence in the directory.
-							</p>
 							<div id="additionalLocationsContainer"></div>
 						</div>
 					</div>
@@ -718,6 +715,7 @@
 				$.fancybox.open({
 					src: html,
 					type: 'html',
+					touch: false,
 					afterClose: function() {
 						$.post('https://pdrcontractors.com/modules/vendors/json/checkAdditionalLocationStatus.json.php', { id: data.id }, function(data3) {
 							if (data3.message === 'good') $currentAdditionalLocationRow.replaceWith(buildAdditionalLocation(data3.data));
@@ -732,6 +730,8 @@
 					},
 					afterShow: function() {
 						cms.initForms();
+						$('.fancybox-toolbar').css({visibility: 'visible', opacity: 1});
+						$('.fancybox-button--zoom').hide();
 					},
 				});
 			});
