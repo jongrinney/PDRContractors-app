@@ -13,6 +13,7 @@
     <access origin="https://cdnjs.cloudflare.com/*" />
     <access origin="https://*.braintreegateway.com/*" />
     <access origin="https://*.braintree-api.com/*" />
+    <access origin="https://www.paypalobjects.com/*" />
     <access launch-external="true" origin="mailto:*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="http://*/*" />
