@@ -235,7 +235,13 @@
 				
 				//map
 				$data.find('.vendorMap').appendTo($('#map'));
-				transposeOptions($('.refineSearchBox'), 'fieldset')
+				$('#map .legend img').each(function() {
+					$(this).attr('src', $(this).attr('src').substr(1));
+				});
+				$('#vendorsMap').css('height',$('#vendorsMap').height()).parent().css('height',''); // fix height and flicker when keyboard shows
+				var $closeBox = $('.refineSearchBox a.closeRefineSearch').clone();
+				transposeOptions($('.refineSearchBox'), 'fieldset');
+				$('.refineSearchBox').append($closeBox);
 		
 				//$data.find('#vendorsMap').appendTo($('#map'));
 				//$data.find('.vendorMapSearch').appendTo($('#map'));
@@ -410,7 +416,7 @@
 										Sort By: <select class="sortResultsBy"><option>Distance: Closest First</option><option>Established: Oldest First</option><option>Established: Newest First</option><option>Name: A-Z</option><option>Name: Z-A</option></select>\
 									</div>\
 								</div>\
-								<div style="max-width:700px; padding: 20px; margin: auto;">\
+								<div style="max-width:700px; padding: 20px; margin: auto; background-color: white;">\
 									Filter Results <input type="text" class="filterResults">\
 								</div>\
 								<div id="mapVendorResultsList" class="mid">\
@@ -463,7 +469,7 @@
 									.text(text);
 							});
 
-							$('#Vendors .sortResultsBy').val(cms.Vendors.curSort).change(function(){
+							$('#map .sortResultsBy').val(cms.Vendors.curSort).change(function(){
 								cms.Vendors.curSort = $(this).val();
 								cms.Vendors.populateMatchingVendors(cms.Vendors.tempVendors, cms.Vendors.tempMarkerOnly);
 							});
