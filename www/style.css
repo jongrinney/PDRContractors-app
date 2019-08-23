@@ -60,7 +60,11 @@ section:not(.active),
 	max-width:300px;
 	box-shadow: var(--shadow-on-gray);
 }
-main>nav{
+main>div.nav{
+	width: 100%;
+	overflow: auto;
+}
+main>div.nav>nav{
 	position:fixed;
 	top:30px;
 	left:15px;
@@ -74,7 +78,7 @@ main>nav{
 	box-shadow: 0 15px 20px rgba(0,0,0,.2);
 	z-index:9999;
 }
-main>nav:before{
+main>div.nav>nav:before{
 	content: "";
 	background-image: url(logo.png);
 	position:absolute;
@@ -84,12 +88,12 @@ main>nav:before{
 	height: 40px;
 	background-size:contain;
 }
-main>nav a{
+main>div.nav>nav a{
 	padding:20px;
 	color: #5B5D5E;
 	font-weight: bold;
 }
-main>nav a.active{
+main>div.nav>nav a.active{
 	color: var(--blue);
 }
 
@@ -167,6 +171,7 @@ article.box .rollup .content{
 .refineSearchBox{
 	display:none;
 	text-align:left;
+	padding: 10px;
 }
 .vendorMap{
 	padding:0 !important;

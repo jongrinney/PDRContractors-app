@@ -239,7 +239,7 @@
 					$(this).attr('src', $(this).attr('src').substr(1));
 				});
 				$('#vendorsMap').css('height',$('#vendorsMap').height()).parent().css('height',''); // fix height and flicker when keyboard shows
-				var $closeBox = $('.refineSearchBox a.closeRefineSearch').clone();
+				var $closeBox = $('.refineSearchBox a.refineSearch').clone();
 				transposeOptions($('.refineSearchBox'), 'fieldset');
 				$('.refineSearchBox').append($closeBox);
 		
@@ -299,7 +299,7 @@
 		
 		P.base.ready(function(){
 			window.cms.Vendors={
-				curSort: 'Distance',
+				curSort: 'Distance: Closest First',
 				markers:[],
 				populateMatchingVendors: (vendors, markerOnly)=>{
 					cms.Vendors.tempVendors = vendors;
@@ -413,7 +413,13 @@
 										('+vendors.length+'&nbsp;RESULTS)\
 									</div>\
 									<div style="float:right;margin-top: -46px;margin-right: 60px;white-space: nowrap;">\
-										Sort By: <select class="sortResultsBy"><option>Distance: Closest First</option><option>Established: Oldest First</option><option>Established: Newest First</option><option>Name: A-Z</option><option>Name: Z-A</option></select>\
+										Sort By: <select class="sortResultsBy">\
+											<option>Distance: Closest First</option>\
+											<option>Established: Oldest First</option>\
+											<option>Established: Newest First</option>\
+											<option>Name: A-Z</option>\
+											<option>Name: Z-A</option>\
+										</select>\
 									</div>\
 								</div>\
 								<div style="max-width:700px; padding: 20px; margin: auto; background-color: white;">\
@@ -422,29 +428,25 @@
 								<div id="mapVendorResultsList" class="mid">\
 							';
 							
-							if (cms.Vendors.curSort == 'Distance')
+							if (cms.Vendors.curSort == 'Distance: Closest First')
 								vendors = vendors.sort(function(a, b) {
 									return b.bool_isFavorited - a.bool_isFavorited || a.number_distance - b.number_distance;
 								});
-							if (cms.Vendors.curSort == 'Experience')
+							if (cms.Vendors.curSort == 'Established: Oldest First')
+								vendors = vendors.sort(function(a, b) {
+									return b.bool_isFavorited - a.bool_isFavorited || b.text_year_established - a.text_year_established;
+								});
+							if (cms.Vendors.curSort == 'Established: Newest First')
 								vendors = vendors.sort(function(a, b) {
 									return b.bool_isFavorited - a.bool_isFavorited || a.text_year_established - b.text_year_established;
 								});
-							if (cms.Vendors.curSort == 'Business Name (A-Z)')
+							if (cms.Vendors.curSort == 'Name: A-Z')
 								vendors = vendors.sort(function(a, b) {
 									return b.bool_isFavorited - a.bool_isFavorited || a.text_Company_Name.localeCompare(b.text_Company_Name);
 								});
-							if (cms.Vendors.curSort == 'Business Name (Z-A)')
+							if (cms.Vendors.curSort == 'Name: Z-A')
 								vendors = vendors.sort(function(a, b) {
 									return b.bool_isFavorited - a.bool_isFavorited || b.text_Company_Name.localeCompare(a.text_Company_Name);
-								});
-							if (cms.Vendors.curSort == 'Contact Name (A-Z)')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.text_Contact_Name.localeCompare(b.text_Contact_Name);
-								});
-							if (cms.Vendors.curSort == 'Contact Name (Z-A)')
-								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || b.text_Contact_Name.localeCompare(a.text_Contact_Name);
 								});
 
 							for (var i = 0; i < vendors.length; i++) {
@@ -456,7 +458,7 @@
 								out += template(vendors[i]);
 							}
 
-							out+='</div><nav></nav>';
+							out+='</div><div class="nav"><nav></nav></div>';
 							$('#mapVendorResults').html(out).show();
 							
 							//favorites
