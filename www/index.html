@@ -218,14 +218,16 @@
 				$('#businessOptionsContainer').find('.cell').first().remove();
 				$('#businessOptionsContainer').find('fieldset').attr('data-type','toggle').unwrap().wrapInner('<div></div>');
 				transposeOptions($('#businessOptionsContainer'), 'fieldset')
-				$('input+label').click(function(){$(this).prev().trigger('click')})
-		
+				
 				$('#businessOptionsContainer').find('input[type="checkbox"]').wrap('<label></label>').attr('data-values','No|Yes').attr('data-position','right').change(function(){
 					saveData();
 				});
 				$('#businessOptionsContainer label:not([style])').click(function(){
 					$(this).prev().trigger('click');
 				});
+				setTimeout(function(){
+					$('input+label').click(function(){$(this).prev().trigger('click')})
+				},1000);
 
 				//additional pins
 				$data.find('#VendorsEditVendorForm').find('.additionalPinsContainer').appendTo($('#additionalLocationsContainer'));
