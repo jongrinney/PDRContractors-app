@@ -219,3 +219,62 @@ article.box .rollup .content{
 .simpleChecker_fillerRight{
 	width: 50px !important;
 }
+
+#Vendors .legend{
+	position:absolute;
+	bottom:25px;
+	right:20px;
+	font-size:x-small;
+	font-weight:bold;
+	background:rgba(255,255,255,.8);
+	padding: 2px; 
+	border-radius: 5px;
+}
+#Vendors .legend img{
+	width: 30px;
+}
+@media (min-width:960px){
+	#Vendors .vendorMap h2{
+		display:inline;
+		padding-left:45px;
+		padding:0;
+		font-size:35px;
+	}
+	#Vendors .vendorMap h2:after{
+		content: "\00a0\00a0|\00a0\00a0"; /*&nbsp;&nbsp;|&nbsp;&nbsp;*/
+	}
+	#Vendors .vendorMap .bgBlue.mid{
+		text-align:left;
+	}
+	#Vendors .vendorMap .bgBlue.mid br{
+		display:none;
+	}
+	#Vendors .vendorMap .bgBlue.mid input[type="submit"]{
+		margin:0px !important;
+	}
+}
+@media (max-width:960px){
+	#Vendors .legend{
+		position: static;
+		margin: 10px;
+		padding: 5px;
+	}
+	#Vendors .legend tbody{
+		display:flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+	#Vendors .legend table,
+	#Vendors .legend tr{
+		display: block;
+	}
+	#Vendors .legend td{
+		display: inline-block;
+	}
+}
+@media (max-width:470px){
+	#Vendors .legend br{
+		display: none;
+	}
+}
+

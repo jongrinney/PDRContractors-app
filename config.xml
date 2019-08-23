@@ -78,7 +78,7 @@
     </edit-config>
     <edit-config file="AndroidManifest.xml" mode="merge" target="/manifest/application">
         <activity android:launchMode="singleTop" />
-        <activity android:debuggable="false" />
+        <activity android:debuggable="true" />
     </edit-config>
     <edit-config file="*-Info.plist" mode="merge" target="NSLocationWhenInUseUsageDescription">
         <string>need location access to set your current location</string>
