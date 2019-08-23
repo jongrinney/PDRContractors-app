@@ -185,6 +185,7 @@
 		P.jquery.ready(function(){
 			//init tabs
 			$('nav a[data-section]').click(function(){
+				$(this).addClass('active').siblings().removeClass('active');
 				$('section').removeClass('active').filter('#'+$(this).attr('data-section')).addClass('active');
 				map.invalidateSize();
 				navigator.geolocation.getCurrentPosition(function(position) {
@@ -217,6 +218,7 @@
 				$('#businessOptionsContainer').find('.cell').first().remove();
 				$('#businessOptionsContainer').find('fieldset').attr('data-type','toggle').unwrap().wrapInner('<div></div>');
 				transposeOptions($('#businessOptionsContainer'), 'fieldset')
+				$('input+label').click(function(){$(this).prev().trigger('click')})
 		
 				$('#businessOptionsContainer').find('input[type="checkbox"]').wrap('<label></label>').attr('data-values','No|Yes').attr('data-position','right').change(function(){
 					saveData();
