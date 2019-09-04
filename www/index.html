@@ -232,6 +232,7 @@
 				//additional pins
 				$data.find('#VendorsEditVendorForm').find('.additionalPinsContainer').appendTo($('#additionalLocationsContainer'));
 				$('#additionalLocationsContainer').find('.cell').first().remove();
+				$('#additionalLocationsContainer p').first().append(' Please visit <a href="https://pdrcontractors.com/" target="_system">pdrcontrractors.com</a> to purchase and manage Additional Pins.')
 
 				//update profile
 				$data.find('#VendorsEditVendorForm').children().not('h1, .currentLocation, .businessOptions').appendTo($('#profileContainer'));
@@ -701,6 +702,7 @@
 			if (typeof data === 'undefined')
 				data = {
 					id: moment().valueOf(),
+					active: 1,
 					label: '',
 					address: '',
 					type: 'permanent',
@@ -710,8 +712,9 @@
 				};
 			data.validTill *= 1000;
 			if (data.validTill == 0) data.status = '<a onclick="purchaseAdditionalLocation(this)" class="btn">Activate</a>';
-			else if (data.validTill < moment().valueOf()) data.status = 'Expired <a onclick="purchaseAdditionalLocation(this,data)" class="btn">Renew</a>';
-			else data.status = moment(data.validTill).toNow(true) + ' remaining';
+			//else if (data.validTill < moment().valueOf()) data.status = 'Expired <a onclick="purchaseAdditionalLocation(this,data)" class="btn">Renew</a>';
+			else if (data.validTill < moment().valueOf()) data.status = 'Expired';
+			else data.status = (moment(data.validTill).diff(moment({hours: 0}), 'days')) + ' days remaining';
 			var out = ' \
 				<tr> \
 					<input type="hidden" name="additionalLocationId[]"  value="' + data.id + '"> \
