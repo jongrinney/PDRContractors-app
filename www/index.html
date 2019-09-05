@@ -69,6 +69,7 @@
 						<a>Additional  Locations</a>
 						<div class="content">
 							<div id="additionalLocationsContainer"></div>
+							<input type="submit" value="Save">
 						</div>
 					</div>
 					<div class="rollup">
@@ -710,24 +711,25 @@
 					status: '',
 				};
 			data.validTill *= 1000;
-			if (data.validTill == 0) data.status = '<a onclick="purchaseAdditionalLocation(this)" class="btn">Activate</a>';
+			//if (data.validTill == 0) data.status = '<a onclick="purchaseAdditionalLocation(this)" class="btn">Activate</a>';
+			if (data.validTill == 0) data.status = 'Pending&nbsp;Activation&nbsp;on <a href="https://pdrcontractors.com" target="system">pdrcontractors.com</a>';
 			//else if (data.validTill < moment().valueOf()) data.status = 'Expired <a onclick="purchaseAdditionalLocation(this,data)" class="btn">Renew</a>';
 			else if (data.validTill < moment().valueOf()) data.status = 'Expired';
 			else data.status = (moment(data.validTill).diff(moment({hours: 0}), 'days')) + ' days remaining';
 			var out = ' \
 				<tr> \
 					<input type="hidden" name="additionalLocationId[]"  value="' + data.id + '"> \
-					<td><select name="additionalLocationIsActive[]"> \
+					<td style="width: 75px"><select name="additionalLocationIsActive[]"> \
 						<option value="1" ' + (data.active == '1' ? 'selected' : '') + '>Active</option> \
 						<option value="0" ' + (data.active == '0' ? 'selected' : '') + '>Inactive</option> \
 					</select></td> \
-					<td><input name="additionalLocationLabel[]" type="text" placeholder="(ex: employee\'s name)" value="' + data.label + '"></td> \
-					<td style="width:33%"><input name="additionalLocationAddress[]" type="text" placeholder="street, city, state, zip, country" value="' + data.address + '"></td> \
-					<td><select name="additionalLocationType[]"> \
+					<td style="width: 185px"><input name="additionalLocationLabel[]" type="text" placeholder="(ex: employee\'s name)" value="' + data.label + '"></td> \
+					<td style="width: 240px"><input name="additionalLocationAddress[]" type="text" placeholder="street, city, state, zip, country" value="' + data.address + '"></td> \
+					<td style="width: 100px"><select name="additionalLocationType[]"> \
 						<option value="permanent" ' + (data.type == 'permanent' ? 'selected' : '') + '>Permanent (Business Location)</option> \
 						<option value="temporary" ' + (data.type == 'temporary' ? 'selected' : '') + '>Temporary (Mobile Storm Chaser)</option> \
 					</select></td> \
-					<td><select name="additionalLocationVisibility[]"> \
+					<td style="width: 205px;"><select name="additionalLocationVisibility[]"> \
 						<option value="both" ' + (data.visibility == 'both' ? 'selected' : '') + '>Both Directories</option> \
 						<option value="public" ' + (data.visibility == 'public' ? 'selected' : '') + '>Public Directory</option> \
 						<option value="private" ' + (data.visibility == 'private' ? 'selected' : '') + '>Members Only Directory</option> \
