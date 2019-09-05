@@ -260,6 +260,11 @@
 				saveData();
 				return false;
 			});
+			$('#VendorsEditVendorForm input[type="submit"]').click(function(e){
+				e.preventDefault();
+				saveData();
+				return false;
+			});
 		});
 		
 		function getVendorId(){
@@ -295,6 +300,7 @@
 						$('#Vendors .revertButton, #Vendors .vendorsButtonPublish, #Vendors .vendorsButtonPublishWithoutEmail').css('display','flex');
 					$('#Vendors .editForm').show();
 
+					$('#additionalLocations').empty();
 					if(data.data.additional_locations)
 						for(var i=0;i<data.data.additional_locations.length; i++)
 							addAdditionalBusinessLocation(data.data.additional_locations[i]);
@@ -719,17 +725,17 @@
 			var out = ' \
 				<tr> \
 					<input type="hidden" name="additionalLocationId[]"  value="' + data.id + '"> \
-					<td style="width: 75px"><select name="additionalLocationIsActive[]"> \
+					<td><select name="additionalLocationIsActive[]"> \
 						<option value="1" ' + (data.active == '1' ? 'selected' : '') + '>Active</option> \
 						<option value="0" ' + (data.active == '0' ? 'selected' : '') + '>Inactive</option> \
 					</select></td> \
-					<td style="width: 185px"><input name="additionalLocationLabel[]" type="text" placeholder="(ex: employee\'s name)" value="' + data.label + '"></td> \
-					<td style="width: 240px"><input name="additionalLocationAddress[]" type="text" placeholder="street, city, state, zip, country" value="' + data.address + '"></td> \
-					<td style="width: 100px"><select name="additionalLocationType[]"> \
+					<td><input name="additionalLocationLabel[]" type="text" placeholder="(ex: employee\'s name)" value="' + data.label + '"></td> \
+					<td><input name="additionalLocationAddress[]" type="text" placeholder="street, city, state, zip, country" value="' + data.address + '"></td> \
+					<td><select name="additionalLocationType[]"> \
 						<option value="permanent" ' + (data.type == 'permanent' ? 'selected' : '') + '>Permanent (Business Location)</option> \
 						<option value="temporary" ' + (data.type == 'temporary' ? 'selected' : '') + '>Temporary (Mobile Storm Chaser)</option> \
 					</select></td> \
-					<td style="width: 205px;"><select name="additionalLocationVisibility[]"> \
+					<td><select name="additionalLocationVisibility[]"> \
 						<option value="both" ' + (data.visibility == 'both' ? 'selected' : '') + '>Both Directories</option> \
 						<option value="public" ' + (data.visibility == 'public' ? 'selected' : '') + '>Public Directory</option> \
 						<option value="private" ' + (data.visibility == 'private' ? 'selected' : '') + '>Members Only Directory</option> \
