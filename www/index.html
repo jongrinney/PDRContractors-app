@@ -652,17 +652,27 @@
 		
 		function getLocation(){
 			swal.showLoading();
+ 
+			var geolocationComplete = function(position) {
+				swal.hideLoading();
+				console.log(position);
+				$('input[name="number_Current_Latitude"]').val(position.coords.latitude);
+				$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
+				saveData();
+			};
+
+			var geolocationError = function(positionError) {
+				swal.hideLoading();
+				swal('Error',positionError.message,'error');
+			};
+			
 			if (navigator.geolocation)
-				navigator.geolocation.getCurrentPosition(function(position) {
-					swal.hideLoading();
-					console.log(position);
-					$('input[name="number_Current_Latitude"]').val(position.coords.latitude);
-					$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
-					saveData();
-				},function(msg){
-					swal.hideLoading();
-					swal('Error',msg + ' Please try again.','error');
-				},{enableHighAccuracy:true, timeout: 10000});
+				navigator.geolocation.getCurrentPosition(geolocationComplete, function(positionError){
+					if(positionError.code == 3)
+						navigator.geolocation.getCurrentPosition(geolocationComplete, geolocationError,{enableHighAccuracy:false});
+					else
+						geolocationError(positionError);
+				},{enableHighAccuracy:true, timeout: 20000});
 			else
 				swal('Error','Geolocation is not supported.','error');
 		}
