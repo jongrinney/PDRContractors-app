@@ -682,6 +682,7 @@
 			$('#VendorsEditVendorForm input[type="file"]').each(function(){ if($(this).val()=='')$(this).prop('disabled',true).addClass('formdataTempDisable');});
 			var fd = new FormData($('#VendorsEditVendorForm').get(0));
 			$('#VendorsEditVendorForm input[type="file"].formdataTempDisable').removeClass('formdataTempDisable').prop('disabled',false);
+			fd.append('id', window.vendorId);
 			fd.append('I_certify_that_all_information_given_above_is_true_to_the_best_of_my_knowledge',true);
 			swal.showLoading();
 			$.ajax({url:'https://pdrcontractors.com/data/modules/vendors/json/saveData.json.php',data:fd,processData:false,contentType:false,type:'POST',success:function(data){
