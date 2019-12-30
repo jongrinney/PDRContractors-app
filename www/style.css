@@ -106,6 +106,10 @@ main>nav{
 	line-height: 60px;
 	box-shadow: 0 15px 20px rgba(0,0,0,.2);
 	z-index:9999;
+	display:flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 50px;
 }
 main>nav:before{
 	content: "";
@@ -118,7 +122,7 @@ main>nav:before{
 	background-size:contain;
 }
 main>nav a{
-	padding:20px;
+	padding:5px;
 	color: #5B5D5E;
 	font-weight: bold;
 }

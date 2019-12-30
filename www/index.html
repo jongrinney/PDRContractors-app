@@ -81,12 +81,13 @@
 							<p>
 								Changes made to your profile must be approved by a site admin, and will not show immediately.
 							</p>
-							<input type="submit" value="Submit for review">
+							<input type="submit" value="Submit for review"><br>
+							<br>
+							<small><a id="logoutBtn">How do I log out?</a></small>
 						</div>
 					</div>
 				</article>
 			</form>
-			<a id="logoutBtn">Log Out</a>
 		</section>
 		<section id="map">
 		</section>
@@ -272,8 +273,7 @@
 			});
 
 			$('#logoutBtn').click(function() {
-				localStorage.clear();
-				window.location.reload();
+				swal('', 'To log out, please uninstall and re-install the app.');
 			});
 		});
 		
