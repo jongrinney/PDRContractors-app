@@ -2,7 +2,8 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover, user-scalable=no, height=device-height">
+	<meta name="viewport" content="target-densitydpi=device-dpi" />
     <meta name="theme-color" content="#000000">
     <link rel="stylesheet" href="https://pdrcontractors.com/cms/plugins/foundation-6.4.2-custom/css/foundation.min.css">
     <link rel="stylesheet" href="https://pdrcontractors.com/css/base.css">
@@ -38,7 +39,8 @@
     <main id="app">
 		<nav>
 			<a class="active" data-section="profile">Profile</a>
-			<a data-section="map">View Map</a>
+			<a data-section="map" onclick="onlyFavorites=false; searchMap();">Map</a>
+			<a data-section="map" onclick="onlyFavorites=true; searchMap();">Favorites</a>
 		<!--<a data-section="supporters">Supporters</a>-->
 		</nav>
 		<section id="profile">
@@ -84,6 +86,7 @@
 					</div>
 				</article>
 			</form>
+			<a id="logoutBtn">Log Out</a>
 		</section>
 		<section id="map">
 		</section>
@@ -94,7 +97,9 @@
 	<script src="cordova.js"></script>
 	<script src="pluginLoader.js"></script>
 	<script>
-		
+		var onlyFavorites = false;
+		var mapBounds = {};
+
 		//prepare Template7
 		window.T={};
 		P.template7.ready(function(){
@@ -265,48 +270,12 @@
 				saveData();
 				return false;
 			});
-		});
-		
-		function getVendorId(){
-			if(P.sweetalert.isLoaded) swal.showLoading();
-				$.get('https://pdrcontractors.com/data/modules/vendors/json/loadVendors.json.php',function(data){
-					window.vendorId = data.vendors[0].id;
-					getUserData();
-				});
-		}
-		
-		function getUserData(){
-			if(P.sweetalert.isLoaded) swal.showLoading();
-			$.get('https://pdrcontractors.com/data/modules/vendors/json/getData.json.php',{id: window.vendorId},function(data){
-				newGrid=true;
-				$('#Vendors .editForm #additionalLocations').empty();
-				if(P.sweetalert.isLoaded) swal.hideLoading();
-				if(data.message == 'good'){
-					for(var i in data.data){
-						if(i.indexOf('bool_')==-1)
-							$(':input[name="'+i+'"]').val(data.data[i]);
-						else if(i.indexOf('bool_')==0){
-							if(data.data[i]=="No")data.data[i]=false;
-							if(data.data[i]=="Yes")data.data[i]=true;
-							$(':input[name="'+i+'"]').prop('checked',data.data[i]);
-						}
-						if(i.indexOf('img_')==0)
-							$(':input[name="'+i+'"]').prev('img').attr('src','https://pdrcontractors.com'+data.data[i]);
-					}
-					$('.callout.warning, .callout.error').hide();
-					if(data.data.dues_payment_status=='Ending Soon')$('.callout.warning').show();
-					if(data.data.dues_payment_status=='Expired')$('.callout.error').show();
-					if(data.data.status != 'Published')
-						$('#Vendors .revertButton, #Vendors .vendorsButtonPublish, #Vendors .vendorsButtonPublishWithoutEmail').css('display','flex');
-					$('#Vendors .editForm').show();
 
-					$('#additionalLocations').empty();
-					if(data.data.additional_locations)
-						for(var i=0;i<data.data.additional_locations.length; i++)
-							addAdditionalBusinessLocation(data.data.additional_locations[i]);
-				}
+			$('#logoutBtn').click(function() {
+				localStorage.clear();
+				window.location.reload();
 			});
-		}
+		});
 		
 		P.base.ready(function(){
 			window.cms.Vendors={
@@ -517,6 +486,65 @@
 				}
 			}
 		});
+
+		function getVendorId(){
+			if(P.sweetalert.isLoaded) swal.showLoading();
+				$.get('https://pdrcontractors.com/data/modules/vendors/json/loadVendors.json.php',function(data){
+					window.vendorId = data.vendors[0].id;
+					getUserData();
+				});
+		}
+		
+		function getUserData(){
+			if(P.sweetalert.isLoaded) swal.showLoading();
+			$.get('https://pdrcontractors.com/data/modules/vendors/json/getData.json.php',{id: window.vendorId},function(data){
+				newGrid=true;
+				$('#Vendors .editForm #additionalLocations').empty();
+				if(P.sweetalert.isLoaded) swal.hideLoading();
+				if(data.message == 'good'){
+					for(var i in data.data){
+						if(i.indexOf('bool_')==-1)
+							$(':input[name="'+i+'"]').val(data.data[i]);
+						else if(i.indexOf('bool_')==0){
+							if(data.data[i]=="No")data.data[i]=false;
+							if(data.data[i]=="Yes")data.data[i]=true;
+							$(':input[name="'+i+'"]').prop('checked',data.data[i]);
+						}
+						if(i.indexOf('img_')==0)
+							$(':input[name="'+i+'"]').prev('img').attr('src','https://pdrcontractors.com'+data.data[i]);
+					}
+					$('.callout.warning, .callout.error').hide();
+					if(data.data.dues_payment_status=='Ending Soon')$('.callout.warning').show();
+					if(data.data.dues_payment_status=='Expired')$('.callout.error').show();
+					if(data.data.status != 'Published')
+						$('#Vendors .revertButton, #Vendors .vendorsButtonPublish, #Vendors .vendorsButtonPublishWithoutEmail').css('display','flex');
+					$('#Vendors .editForm').show();
+
+					$('#additionalLocations').empty();
+					if(data.data.additional_locations)
+						for(var i=0;i<data.data.additional_locations.length; i++)
+							addAdditionalBusinessLocation(data.data.additional_locations[i]);
+				}
+			});
+		}
+
+		function searchMap(){
+			console.log('bounds',mapBounds);
+			var data = {
+				lat1:mapBounds._southWest.lat,
+				lon1:mapBounds._southWest.lng,
+				lat2:mapBounds._northEast.lat,
+				lon2:mapBounds._northEast.lng
+			};
+			$('section#map form input[type="checkbox"]:checked').each(function(){
+				data[$(this).attr('name')]='on';
+			})
+			if(onlyFavorites) data['Show_Favorites_Only']=true;
+			$.post('https://pdrcontractors.com/json/findNearestVendors.json.php',data,function(data){
+				cms.Vendors.populateMatchingVendors(data.vendors);
+			});
+		}
+
 		function doVendorResultsPagination() {
 			//build pagination nav
 			var numVendors = $('#mapVendorResultsList>div:visible').length;
@@ -580,22 +608,10 @@
 					
 					map.on('moveend', function(){ 
 						console.log('moveend');
-						var bounds = map.getBounds();
-						console.log('bounds',bounds);
-						var data = {
-							lat1:bounds._southWest.lat,
-							lon1:bounds._southWest.lng,
-							lat2:bounds._northEast.lat,
-							lon2:bounds._northEast.lng
-						};
-						$('section#map form input[type="checkbox"]:checked').each(function(){
-							data[$(this).attr('name')]='on';
-						})
-						$.post('https://pdrcontractors.com/json/findNearestVendors.json.php',data,function(data){
-							cms.Vendors.populateMatchingVendors(data.vendors);
-						});
+						mapBounds = map.getBounds();
+						searchMap();
 					});
-			
+					
 					//format marker icon
 					window.pins = {
 						default: L.icon({
@@ -651,31 +667,45 @@
 		}
 		
 		function getLocation(){
-			swal.showLoading();
+			Swal({
+				title: 'Are you sure?',
+				text: "This will expose your exact location on the directory.",
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: 'Yes'
+			}).then((result) => {
+				if (result.value) {
+					swal.showLoading();
  
-			var geolocationComplete = function(position) {
-				swal.hideLoading();
-				console.log(position);
-				$('input[name="number_Current_Latitude"]').val(position.coords.latitude);
-				$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
-				saveData();
-			};
+					var geolocationComplete = function(position) {
+						swal.hideLoading();
+						console.log(position);
+						$('input[name="number_Current_Latitude"]').val(position.coords.latitude);
+						$('input[name="number_Current_Longitude"]').val(position.coords.longitude);
+						saveData();
+					};
 
-			var geolocationError = function(positionError) {
-				swal.hideLoading();
-				swal('Error',positionError.message,'error');
-			};
-			
-			if (navigator.geolocation)
-				navigator.geolocation.getCurrentPosition(geolocationComplete, function(positionError){
-					if(positionError.code == 3)
-						navigator.geolocation.getCurrentPosition(geolocationComplete, geolocationError,{enableHighAccuracy:false});
+					var geolocationError = function(positionError) {
+						swal.hideLoading();
+						swal('Error',positionError.message,'error');
+					};
+					
+					if (navigator.geolocation)
+						navigator.geolocation.getCurrentPosition(geolocationComplete, function(positionError){
+							if(positionError.code == 3)
+								navigator.geolocation.getCurrentPosition(geolocationComplete, geolocationError,{enableHighAccuracy:false});
+							else
+								geolocationError(positionError);
+						},{enableHighAccuracy:true, timeout: 20000});
 					else
-						geolocationError(positionError);
-				},{enableHighAccuracy:true, timeout: 20000});
-			else
-				swal('Error','Geolocation is not supported.','error');
+						swal('Error','Geolocation is not supported.','error');
+				}
+			});
 		}
+
+			
 		
 		
 		function saveData(){
@@ -697,7 +727,7 @@
 							title:'Success',
 							text: 'Changes saved',
 							type: 'success',
-							timer: 1000,
+							timer: 5000,
 							toast: true,
 							showConfirmButton: false,
 						}).then(function(){
