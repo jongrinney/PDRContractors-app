@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131414313-1"></script>
+	<script>window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'UA-131414313-1');</script>
+
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no, viewport-fit=cover, user-scalable=no, height=device-height">
 	<meta name="viewport" content="target-densitydpi=device-dpi" />
@@ -258,8 +261,8 @@
 				//$data.find('.vendorMapSearch').appendTo($('#map'));
 				
 				//initFormElements();
-				
-				
+
+
 			});
 			
 			$('#VendorsEditVendorForm').submit(function(){
@@ -282,106 +285,98 @@
 				curSort: 'Distance: Closest First',
 				markers:[],
 				populateMatchingVendors: (vendors, markerOnly)=>{
-					cms.Vendors.tempVendors = vendors;
-					cms.Vendors.tempMarkerOnly = markerOnly;
-
-					//remove existing pins
-					markersLayer.clearLayers();
-					while (markers.length > 0) {
-						var marker = markers.pop().getElement();
-						if (typeof marker !== 'undefined' && marker !== null) marker.remove();
-					}
-					if (typeof markerOnly == 'undefined' || markerOnly == false)
-						if (vendors.length > 0) cms.Vendors.buildVendorList(vendors);
-						else if (window.location.pathname == '/favorite-contractors') {
-							out =
-								'<center><h3>No results to display.</h3> Either you filters are set to high or you have not favorited any vendors. Please either adjust your filters or return to the <a href="/">home page</a> and click the green star next to a vendor to save it to your favorites list.</center>';
-							$('#mapVendorResults')
-								.html(out)
-								.show();
-						} else
-							$('#mapVendorResults')
-								.html('')
-								.hide();
-
-					//add marker
-					for (var i = 0; i < vendors.length; i++) {
-						for (var j in vendors[i].locations) {
-							if (typeof vendors[i].locations[j].latitude === 'undefined') continue;
-							
-							var icon = (typeof pins[vendors[i].locations[j].type] !== 'undefined') ? pins[vendors[i].locations[j].type] : pins['default'];
-							var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {
-								icon: icon,
-								draggable: false,
-							});
-							marker.data = vendors[i];
-							marker.bindPopup(
-								vendors[i].text_Company_Name +
-									'<br> \
-								<a href="' +
-									format('tel', vendors[i].text_Phone_Number) +
-									'">' +
-									format('phone', vendors[i].text_Phone_Number) +
-									'</a><br> \
-								<a href="' +
-									format('url', vendors[i].text_Url) +
-									'" target="_blank" rel="noopener nofollow">' +
-									format('link', vendors[i].text_Url) +
-									'</a><br> \
-								<a onclick=" \
-									var page = Math.ceil($(\'#vendor' +
-									vendors[i].numId +
-									"').position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page'); \
-									$('#mapVendorResults nav a:contains('+page+')').trigger('click'); \
-									window.scrollTo({top: $('#vendor" +
-									vendors[i].numId +
-									"').offset().top-100,left: 0,behavior: 'smooth'}); \
-									\">Click for more info ...</a> \
-							"
-							);
-							//marker.addTo(map);
-							markersLayer.addLayer(marker);
-							marker
-								.on('mousedown', function() {
-									this.timeoutId = setTimeout(this.dblclick, 1000);
-								})
-								.on('mouseup mouseleave', function() {
-									clearTimeout(this.timeoutId);
-								});
-
-							marker.on('click', function(e) {
-								this.openPopup();
-							});
-							/*marker.on('mouseover', function (e) {
-								this.openPopup();
-							});*/
-							marker.on('dblclick', function(e) {
-								var data = this.data;
-								if ($('#vendor' + data.numId).length == 0) {
-									populateMatchingVendors(cms.Vendors.tempVendors, false);
-									setTimeout(function() {
-										var page = Math.ceil($('#vendor' + vendors[i].numId).position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page');
-										$('#mapVendorResults nav a:contains(' + page + ')').trigger('click');
-
-										window.scrollTo({
-											top: $('#vendor' + data.numId).offset().top - 100,
-											left: 0,
-											behavior: 'smooth',
-										});
-									}, 500);
-								} else var page = Math.ceil($('#vendor' + data.numId).position().left / $('#mapVendorResults').width()) + 1 + $('#mapVendorResultsList').data('page');
-								$('#mapVendorResults nav a:contains(' + page + ')').trigger('click');
-
-								window.scrollTo({
-									top: $('#vendor' + data.numId).offset().top - 100,
-									left: 0,
-									behavior: 'smooth',
-								});
-							});
-
-							markers.push(marker);
+					if(window.cms.Vendors.populateMatchingVendorsDebounce)
+						clearTimeout(window.cms.Vendors.populateMatchingVendorsDebounce);
+					window.cms.Vendors.populateMatchingVendorsDebounce = setTimeout(() => {
+						cms.Vendors.tempVendors = vendors;
+						cms.Vendors.tempMarkerOnly = markerOnly;
+						
+						var markersToSkip = [];
+						var found
+						for (var i = markers.length - 1; i >= 0; i--) {
+							found = false;
+							for (var j = 0; j < vendors.length; j++) {
+								if(markers[i].data.numId === vendors[j].numId){
+									found = true;
+									markersToSkip.push(j);
+								}
+							}
+							if(!found){
+								//var marker = markers[i].getElement();
+								//if (typeof marker !== 'undefined' && marker !== null) marker.remove();
+								markersLayer.removeLayer(Object.assign({}, markers[i]));
+								delete markers[i];
+							}
 						}
-					}
+						markers = markers.filter(a => a);
+						
+						if (typeof markerOnly == 'undefined' || markerOnly == false)
+							if (vendors.length > 0) cms.Vendors.buildVendorList(vendors);
+							else if (window.location.pathname == '/favorite-contractors') {
+								out =
+									'<center><h3>No results to display.</h3> Either you filters are set to high or you have not favorited any vendors. Please either adjust your filters or return to the <a href="/">home page</a> and click the green star next to a vendor to save it to your favorites list.</center>';
+								$('#mapVendorResults')
+									.html(out)
+									.show();
+							} else
+								$('#mapVendorResults')
+									.html('')
+									.hide();
+
+						//add marker
+						for (var i = 0; i < vendors.length; i++) {
+							if(markersToSkip.indexOf(i) >= 0) continue;
+
+							for (var j in vendors[i].locations) {
+								if (typeof vendors[i].locations[j].latitude === 'undefined') continue;
+								
+								var icon = (typeof pins[vendors[i].locations[j].type] !== 'undefined') ? pins[vendors[i].locations[j].type] : pins['default'];
+								var marker = L.marker(new L.LatLng(vendors[i].locations[j].latitude, vendors[i].locations[j].longitude), {
+									icon: icon,
+									draggable: false,
+								});
+								marker.data = vendors[i];
+								marker.bindPopup(`
+									${vendors[i].text_Company_Name}<br>
+									<a href="${format('tel', vendors[i].text_Phone_Number)}">${format('phone', vendors[i].text_Phone_Number)}</a><br>
+									<a href="${format('url', vendors[i].text_Url)}" target="_blank" rel="noopener nofollow">${format('link', vendors[i].text_Url)}</a><br>
+									<a onclick="scrollToVendorById(${vendors[i].numId}, ${vendors[i].text_Company_Name}); ">Click for more info ...</a>
+								`);
+								//marker.addTo(map);
+								markersLayer.addLayer(marker);
+								marker
+									.on('mousedown', function() {
+										this.timeoutId = setTimeout(this.dblclick, 1000);
+									})
+									.on('mouseup mouseleave', function() {
+										clearTimeout(this.timeoutId);
+									});
+
+								marker.on('click', function(e) {
+									this.openPopup();
+									gtag('event', 'select_content', {
+										event_category: 'map-callout',
+										event_label: `${this.data.text_Company_Name}, ${this.data.numId}`,
+									});
+								});
+								marker.on('mouseover', function (e) {
+									gtag('event', 'search', {
+										event_category: 'map-hover',
+										event_label: `${this.data.text_Company_Name}, ${this.data.numId}`,
+									});
+								});
+								marker.on('dblclick', function(e) {
+									scrollToVendorById(this.data.numId, this.data.text_Company_Name);
+									gtag('event', 'select_content', {
+										event_category: 'map-dblclick',
+										event_label: `${this.data.text_Company_Name}, ${this.data.numId}`,
+									});
+								});
+
+								markers.push(marker);
+							}
+						}
+					}, 200);
 				},
 				buildVendorList: (vendors) => {
 					T.build('event','https://pdrcontractors.com/data/templates/partial.vendorListAdmin.htm',false,function(template){
@@ -410,23 +405,23 @@
 							
 							if (cms.Vendors.curSort == 'Distance: Closest First')
 								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.number_distance - b.number_distance;
+									return a.number_distance - b.number_distance;
 								});
 							if (cms.Vendors.curSort == 'Established: Oldest First')
 								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || b.text_year_established - a.text_year_established;
+									return b.text_year_established - a.text_year_established;
 								});
 							if (cms.Vendors.curSort == 'Established: Newest First')
 								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.text_year_established - b.text_year_established;
+									return a.text_year_established - b.text_year_established;
 								});
 							if (cms.Vendors.curSort == 'Name: A-Z')
 								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || a.text_Company_Name.localeCompare(b.text_Company_Name);
+									return a.text_Company_Name.localeCompare(b.text_Company_Name);
 								});
 							if (cms.Vendors.curSort == 'Name: Z-A')
 								vendors = vendors.sort(function(a, b) {
-									return b.bool_isFavorited - a.bool_isFavorited || b.text_Company_Name.localeCompare(a.text_Company_Name);
+									return b.text_Company_Name.localeCompare(a.text_Company_Name);
 								});
 
 							for (var i = 0; i < vendors.length; i++) {
@@ -446,19 +441,64 @@
 								$.post('https://pdrcontractors.com/json/toggleFavorite.json.php', { vendor: $(this).attr('data-vendor') });
 								$(this).toggleClass('fas far');
 								var text = $(this).is('.far') ? 'Add to Favorites' : 'Favorited';
-								$(this)
-									.children('span')
-									.text(text);
+								$(this).children('span').text(text);
+								gtag('event', 'click', {
+									event_category: 'result-favorite-' + $(this).is('.fas') ? 'on' : 'off',
+									event_label: vendorName + ', ' + vendor,
+								});
 							});
 
 							$('#map .sortResultsBy').val(cms.Vendors.curSort).change(function(){
 								cms.Vendors.curSort = $(this).val();
 								cms.Vendors.populateMatchingVendors(cms.Vendors.tempVendors, cms.Vendors.tempMarkerOnly);
+								gtag('event', 'search', {
+									event_category: 'results-sort',
+									event_label: cms.Vendors.curSort,
+								});
 							});
 							$('#mapVendorResults .shortBio').click(function(){
 								$(this).hide().next().show();
+
+								const $result = $(this).closest("result");
+								const vendor = $result.attr('data-vendorId')
+								const vendorName = $result.attr('data-vendorName');
+
+								gtag('event', 'click', {
+									event_category: 'result-expand-bio',
+									event_label: vendorName + ', ' + vendor,
+								});
 							});
+							$('#mapVendorResults .shortReference').click(function() {
+								$(this).hide().next().css({display: 'flex'});
+								
+								const $result = $(this).closest("result");
+								const vendor = $result.attr('data-vendorId')
+								const vendorName = $result.attr('data-vendorName');
+
+								gtag('event', 'click', {
+									event_category: 'result-expand-references',
+									event_label: vendorName + ', ' + vendor,
+								});
+							});
+							$('#mapVendorResults a[target="_blank"]').click(function() {
+								const $result = $(this).closest("result");
+								const vendor = $result.attr('data-vendorId')
+								const vendorName = $result.attr('data-vendorName');
+
+								gtag('event', 'click', {
+									event_category: 'result-link-external',
+									event_label: $(this).attr("href"),
+									value: vendorName + ', ' + vendor,
+								});
+							});
+
+							gtag('event', 'search', {
+								event_category: 'results-sort',
+								event_label: cms.Vendors.curSort,
+							});
+
 							$('#mapVendorResults .filterResults').keyup(function() {
+								$('#mapVendorResultsList output').remove();
 								$('#mapVendorResultsList')
 									.data('page', 0)
 									.scrollLeft(0);
@@ -474,6 +514,11 @@
 									});
 									if ($('#mapVendorResultsList>div:visible').length == 0)
 										$('#mapVendorResultsList').append('<output>No vendors match your search. Please try widening your search parameters and try again.</output>');
+										gtag('event', 'search', {
+											event_category: 'results-filter',
+											event_label: q,
+											value: $('#mapVendorResultsList>div:visible').length + ' results',
+										});	
 								}
 								doVendorResultsPagination();
 							});
@@ -530,6 +575,8 @@
 
 		function searchMap(){
 			console.log('bounds',mapBounds);
+			if(typeof mapBounds._southWest === 'undefined') return;
+
 			var data = {
 				lat1:mapBounds._southWest.lat,
 				lon1:mapBounds._southWest.lng,
@@ -581,6 +628,11 @@
 					top: $('#mapVendorResultsList').offset().top - 100,
 					left: 0,
 					behavior: 'smooth',
+				});
+
+				gtag('event', 'search', {
+					event_category: 'results-paginate',
+					event_label: page + 1,
 				});
 			});
 		}
@@ -659,6 +711,11 @@
 					cms.Vendors.populateMatchingVendors(data.vendors);
 				}); 
 				e.preventDefault();
+
+				gtag('event', 'search', {
+					event_category: 'find near',
+					event_label: decodeURIComponent($(this).serialize()),
+				});
 				return false;
 			}); 
 			$(".vendorMapSearch input").unbind('change').change(function(){
@@ -863,6 +920,20 @@
 				}
 			});
 		}, false);
+
+		function scrollToVendorById(vendorId, vendorName){
+			$("#mapVendorResultsList").prepend($('#vendor'+vendorId).get(0));
+
+			$('#mapVendorResultsList').scrollLeft(0);
+			var page = Math.ceil($('#vendor' + vendorId).position().left / $('#mapVendorResults').width());
+			$('#mapVendorResults nav a[data-page=' + page + ']').trigger('click');
+			window.scrollTo({top: $('#vendor' + vendorId).offset().top - 100, left: 0, behavior: 'smooth'});
+
+			gtag('event', 'select_content', {
+				event_category: 'map-scrollToVendor',
+				event_label: vendorName + ', ' + vendorId,
+			});
+		}
 	</script>
   </body>
 </html>

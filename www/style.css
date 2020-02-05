@@ -220,7 +220,8 @@ article.box .rollup .content{
 	padding-top:65px !important;
 }
 #vendorsMap{
-    box-shadow: var(--shadow-on-blue);
+	box-shadow: var(--shadow-on-blue);
+	height: 66%;
 }
 #mapVendorResultsList{
 	background-color: white;
